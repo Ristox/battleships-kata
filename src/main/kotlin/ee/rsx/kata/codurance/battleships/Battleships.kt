@@ -2,9 +2,7 @@ package ee.rsx.kata.codurance.battleships
 
 interface Battleships {
 
-  fun addPlayer(name: String)
+  fun addPlayer(name: String): Player
   fun start()
-  fun fire(x: Int, y: Int)
-  fun endTurn()
   fun print()
 }

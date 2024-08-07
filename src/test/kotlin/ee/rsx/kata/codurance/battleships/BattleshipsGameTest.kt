@@ -15,8 +15,8 @@ class BattleshipsGameTest {
 
   @Test
   fun `add player`() {
-    game.addPlayer("John")
-    
-    assertEquals("John", game.addPlayer("John"))
+    val player = game.addPlayer("John")
+
+    assertEquals("John", player.name)
   }
 }
