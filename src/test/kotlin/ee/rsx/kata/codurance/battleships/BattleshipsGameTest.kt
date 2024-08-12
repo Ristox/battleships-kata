@@ -44,4 +44,15 @@ class BattleshipsGameTest {
       assertThat(it.message).isEqualTo("Maximum of 2 players can be added")
     }
   }
+
+  @Test
+  fun `game cannot be started when only single player added`() {
+    game.addPlayer("John")
+
+    val test: () -> Unit = { game.start() }
+
+    assertThrows<IllegalStateException>(test).let {
+      assertThat(it.message).isEqualTo("2 players must be added before starting the game")
+    }
+  }
 }
