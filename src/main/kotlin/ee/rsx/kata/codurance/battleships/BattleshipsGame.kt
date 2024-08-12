@@ -13,7 +13,7 @@ class BattleshipsGame : Battleships {
   }
 
   override fun start() {
-    TODO("Not yet implemented")
+    check(players.size == 2) { "2 players must be added before starting the game" }
   }
 
   override fun print() {
