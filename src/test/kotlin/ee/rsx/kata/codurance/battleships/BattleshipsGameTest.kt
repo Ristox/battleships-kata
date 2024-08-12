@@ -55,4 +55,16 @@ class BattleshipsGameTest {
       assertThat(it.message).isEqualTo("2 players must be added before starting the game")
     }
   }
+
+  @Test
+  fun `game cannot be started when players don't have ships placed`() {
+    game.addPlayer("John")
+    game.addPlayer("Jane")
+
+    val test: () -> Unit = { game.start() }
+
+    assertThrows<IllegalStateException>(test).let {
+      assertThat(it.message).isEqualTo("Each player must place their ships before starting the game")
+    }
+  }
 }
