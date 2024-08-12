@@ -1,5 +1,6 @@
 package ee.rsx.kata.codurance.battleships
 
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -18,5 +19,15 @@ class BattleshipsGameTest {
     val player = game.addPlayer("John")
 
     assertEquals("John", player.name)
+  }
+
+  @Test
+  fun `game board has 10 rows and 10 columns`() {
+    val player = game.addPlayer("John")
+
+    val board = player.board
+
+    assertThat(board.rows).size().isEqualTo(10)
+    assertThat(board.columns).size().isEqualTo(10)
   }
 }
