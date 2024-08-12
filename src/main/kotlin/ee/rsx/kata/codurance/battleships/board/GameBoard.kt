@@ -6,9 +6,9 @@ import ee.rsx.kata.codurance.battleships.Row
 
 class GameBoard : Board {
   override val rows: Set<Row>
-    get() = TODO("Not yet implemented")
+    get() = Row.entries.toSet()
   override val columns: Set<Column>
-    get() = TODO("Not yet implemented")
+    get() = Column.entries.toSet()
 
   override fun print() {
     TODO("Not yet implemented")
