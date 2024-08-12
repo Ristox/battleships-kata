@@ -6,7 +6,6 @@ import ee.rsx.kata.codurance.battleships.Coordinates
 import ee.rsx.kata.codurance.battleships.FiringResult
 import ee.rsx.kata.codurance.battleships.Player
 import ee.rsx.kata.codurance.battleships.Row
-import ee.rsx.kata.codurance.battleships.Ship
 import ee.rsx.kata.codurance.battleships.ShipType
 import ee.rsx.kata.codurance.battleships.board.GameBoard
 

@@ -97,4 +97,17 @@ class BattleshipsGameTest {
       assertThat(shipTypeAt(G, NINE)).isNull()
     }
   }
+
+  @Test
+  fun `placing a ship places a DESTROYER on the board vertically`() {
+    with(game.addPlayer("John")) {
+      place(DESTROYER, start = Coordinates(C, FOUR), end = Coordinates(E, FOUR))
+
+      assertThat(shipTypeAt(B, FOUR)).isNull()
+      assertThat(shipTypeAt(C, FOUR)).isEqualTo(DESTROYER)
+      assertThat(shipTypeAt(D, FOUR)).isEqualTo(DESTROYER)
+      assertThat(shipTypeAt(E, FOUR)).isEqualTo(DESTROYER)
+      assertThat(shipTypeAt(F, FOUR)).isNull()
+    }
+  }
 }
