@@ -1,5 +1,8 @@
 package ee.rsx.kata.codurance.battleships
 
+import ee.rsx.kata.codurance.battleships.Column.*
+import ee.rsx.kata.codurance.battleships.Row.*
+import ee.rsx.kata.codurance.battleships.Ship.MOTHERSHIP
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -65,6 +68,20 @@ class BattleshipsGameTest {
 
     assertThrows<IllegalStateException>(test).let {
       assertThat(it.message).isEqualTo("Each player must place their ships before starting the game")
+    }
+  }
+
+  @Test
+  fun `placing a ship places the MOTHERSHIP on the board horizontally`() {
+    with(game.addPlayer("John")) {
+      place(MOTHERSHIP, start = Coordinates(E, TWO), end = Coordinates(E, FIVE))
+
+      assertThat(shipAt(E, ONE)).isNull()
+      assertThat(shipAt(E, TWO)).isEqualTo(MOTHERSHIP)
+      assertThat(shipAt(E, THREE)).isEqualTo(MOTHERSHIP)
+      assertThat(shipAt(E, FOUR)).isEqualTo(MOTHERSHIP)
+      assertThat(shipAt(E, FIVE)).isEqualTo(MOTHERSHIP)
+      assertThat(shipAt(E, SIX)).isNull()
     }
   }
 }
