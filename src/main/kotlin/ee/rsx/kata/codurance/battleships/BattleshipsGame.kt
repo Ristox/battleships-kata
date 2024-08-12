@@ -8,9 +8,8 @@ class BattleshipsGame : Battleships {
 
   override fun addPlayer(name: String): Player {
     check(players.size < 2) { "Maximum of 2 players can be added" }
-    val player = GamePlayer(name)
-    players.add(player)
-    return player
+    
+    return GamePlayer(name).apply { players.add(this) }
   }
 
   override fun start() {
