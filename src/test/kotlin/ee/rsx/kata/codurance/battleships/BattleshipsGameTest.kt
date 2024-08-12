@@ -124,4 +124,17 @@ class BattleshipsGameTest {
       assertThat(shipTypeAt(J, TWO)).isNull()
     }
   }
+
+  @Test
+  fun `placing a MOTHERSHIP across different rows and columns throws exception`() {
+    with(game.addPlayer("John")) {
+
+      val test: () -> Unit = { place(MOTHERSHIP, start = Coordinates(E, FIVE), end = Coordinates(G, SIX)) }
+
+      assertThrows<IllegalArgumentException>(test).let {
+        assertThat(it.message).isEqualTo("Ship must be placed horizontally or vertically")
+      }
+    }
+
+  }
 }
