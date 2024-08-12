@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import kotlin.test.assertFailsWith
 
 class BattleshipsGameTest {
 
@@ -37,8 +38,10 @@ class BattleshipsGameTest {
     game.addPlayer("John")
     game.addPlayer("Jane")
 
-    assertThrows<IllegalStateException> {
-      game.addPlayer("Bob")
+    val test: () -> Unit = { game.addPlayer("Bob") }
+
+    assertThrows<IllegalStateException>(test).let {
+      assertThat(it.message).isEqualTo("Maximum of 2 players can be added")
     }
   }
 }
