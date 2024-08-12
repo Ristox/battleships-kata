@@ -14,6 +14,8 @@ class BattleshipsGame : Battleships {
 
   override fun start() {
     check(players.size == 2) { "2 players must be added before starting the game" }
+
+    throw IllegalStateException("Each player must place their ships before starting the game")
   }
 
   override fun print() {
