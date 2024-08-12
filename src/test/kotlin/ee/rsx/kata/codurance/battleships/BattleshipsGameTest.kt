@@ -2,6 +2,7 @@ package ee.rsx.kata.codurance.battleships
 
 import ee.rsx.kata.codurance.battleships.Column.*
 import ee.rsx.kata.codurance.battleships.Row.*
+import ee.rsx.kata.codurance.battleships.Ship.DESTROYER
 import ee.rsx.kata.codurance.battleships.Ship.MOTHERSHIP
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
@@ -82,6 +83,19 @@ class BattleshipsGameTest {
       assertThat(shipAt(E, FOUR)).isEqualTo(MOTHERSHIP)
       assertThat(shipAt(E, FIVE)).isEqualTo(MOTHERSHIP)
       assertThat(shipAt(E, SIX)).isNull()
+    }
+  }
+
+  @Test
+  fun `placing a ship places a DESTROYER on the board horizontally`() {
+    with(game.addPlayer("John")) {
+      place(DESTROYER, start = Coordinates(G, SIX), end = Coordinates(G, EIGHT))
+
+      assertThat(shipAt(G, FIVE)).isNull()
+      assertThat(shipAt(G, SIX)).isEqualTo(DESTROYER)
+      assertThat(shipAt(G, SEVEN)).isEqualTo(DESTROYER)
+      assertThat(shipAt(G, EIGHT)).isEqualTo(DESTROYER)
+      assertThat(shipAt(G, NINE)).isNull()
     }
   }
 }
