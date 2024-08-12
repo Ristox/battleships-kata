@@ -2,14 +2,13 @@ package ee.rsx.kata.codurance.battleships
 
 import ee.rsx.kata.codurance.battleships.Column.*
 import ee.rsx.kata.codurance.battleships.Row.*
-import ee.rsx.kata.codurance.battleships.Ship.DESTROYER
-import ee.rsx.kata.codurance.battleships.Ship.MOTHERSHIP
+import ee.rsx.kata.codurance.battleships.ShipType.DESTROYER
+import ee.rsx.kata.codurance.battleships.ShipType.MOTHERSHIP
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import kotlin.test.assertFailsWith
 
 class BattleshipsGameTest {
 
@@ -77,12 +76,12 @@ class BattleshipsGameTest {
     with(game.addPlayer("John")) {
       place(MOTHERSHIP, start = Coordinates(E, TWO), end = Coordinates(E, FIVE))
 
-      assertThat(shipAt(E, ONE)).isNull()
-      assertThat(shipAt(E, TWO)).isEqualTo(MOTHERSHIP)
-      assertThat(shipAt(E, THREE)).isEqualTo(MOTHERSHIP)
-      assertThat(shipAt(E, FOUR)).isEqualTo(MOTHERSHIP)
-      assertThat(shipAt(E, FIVE)).isEqualTo(MOTHERSHIP)
-      assertThat(shipAt(E, SIX)).isNull()
+      assertThat(shipTypeAt(E, ONE)).isNull()
+      assertThat(shipTypeAt(E, TWO)).isEqualTo(MOTHERSHIP)
+      assertThat(shipTypeAt(E, THREE)).isEqualTo(MOTHERSHIP)
+      assertThat(shipTypeAt(E, FOUR)).isEqualTo(MOTHERSHIP)
+      assertThat(shipTypeAt(E, FIVE)).isEqualTo(MOTHERSHIP)
+      assertThat(shipTypeAt(E, SIX)).isNull()
     }
   }
 
@@ -91,11 +90,11 @@ class BattleshipsGameTest {
     with(game.addPlayer("John")) {
       place(DESTROYER, start = Coordinates(G, SIX), end = Coordinates(G, EIGHT))
 
-      assertThat(shipAt(G, FIVE)).isNull()
-      assertThat(shipAt(G, SIX)).isEqualTo(DESTROYER)
-      assertThat(shipAt(G, SEVEN)).isEqualTo(DESTROYER)
-      assertThat(shipAt(G, EIGHT)).isEqualTo(DESTROYER)
-      assertThat(shipAt(G, NINE)).isNull()
+      assertThat(shipTypeAt(G, FIVE)).isNull()
+      assertThat(shipTypeAt(G, SIX)).isEqualTo(DESTROYER)
+      assertThat(shipTypeAt(G, SEVEN)).isEqualTo(DESTROYER)
+      assertThat(shipTypeAt(G, EIGHT)).isEqualTo(DESTROYER)
+      assertThat(shipTypeAt(G, NINE)).isNull()
     }
   }
 }

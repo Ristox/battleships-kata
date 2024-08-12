@@ -1,8 +1,9 @@
 package ee.rsx.kata.codurance.battleships
 
-enum class Ship(size: Int) {
-  MOTHERSHIP(size = 4),
-  DESTROYER(size = 3),
-  WARSHIP(size = 2),
-  GUNSHIP(size = 1)
+interface Ship {
+  val type: ShipType
+  val start: Coordinates
+  val end: Coordinates
+
+  fun isAt(row: Row, column: Column): Boolean
 }

@@ -4,7 +4,7 @@ interface Player {
   val board: Board
   val name: String
 
-  fun place(ship: Ship, start: Coordinates, end: Coordinates): Board
-  fun shipAt(row: Row, column: Column): Ship?
+  fun place(shipType: ShipType, start: Coordinates, end: Coordinates): Board
+  fun shipTypeAt(row: Row, column: Column): ShipType?
   fun fireAtOpponent(coordinates: Coordinates): FiringResult
 }
