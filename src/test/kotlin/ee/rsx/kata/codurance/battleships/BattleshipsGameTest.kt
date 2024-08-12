@@ -110,4 +110,18 @@ class BattleshipsGameTest {
       assertThat(shipTypeAt(F, FOUR)).isNull()
     }
   }
+
+  @Test
+  fun `placing a ship places a MOTHERSHIP on the board vertically`() {
+    with(game.addPlayer("John")) {
+      place(MOTHERSHIP, start = Coordinates(F, TWO), end = Coordinates(I, TWO))
+
+      assertThat(shipTypeAt(E, TWO)).isNull()
+      assertThat(shipTypeAt(F, TWO)).isEqualTo(MOTHERSHIP)
+      assertThat(shipTypeAt(G, TWO)).isEqualTo(MOTHERSHIP)
+      assertThat(shipTypeAt(H, TWO)).isEqualTo(MOTHERSHIP)
+      assertThat(shipTypeAt(I, TWO)).isEqualTo(MOTHERSHIP)
+      assertThat(shipTypeAt(J, TWO)).isNull()
+    }
+  }
 }
