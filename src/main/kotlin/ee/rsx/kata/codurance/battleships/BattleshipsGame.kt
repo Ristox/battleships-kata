@@ -1,9 +1,11 @@
 package ee.rsx.kata.codurance.battleships
 
+import ee.rsx.kata.codurance.battleships.player.GamePlayer
+
 class BattleshipsGame : Battleships {
 
   override fun addPlayer(name: String): Player {
-    TODO("Not yet implemented")
+    return GamePlayer(name)
   }
 
   override fun start() {
