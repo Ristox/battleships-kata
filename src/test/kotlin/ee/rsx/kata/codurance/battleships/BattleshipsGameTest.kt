@@ -4,6 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class BattleshipsGameTest {
 
@@ -29,5 +30,15 @@ class BattleshipsGameTest {
 
     assertThat(board.rows).size().isEqualTo(10)
     assertThat(board.columns).size().isEqualTo(10)
+  }
+
+  @Test
+  fun `maximum of 2 players can be added`() {
+    game.addPlayer("John")
+    game.addPlayer("Jane")
+
+    assertThrows<IllegalStateException> {
+      game.addPlayer("Bob")
+    }
   }
 }
