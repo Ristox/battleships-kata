@@ -1,6 +1,6 @@
 package ee.rsx.kata.codurance.battleships
 
-enum class ShipType(size: Int) {
+enum class ShipType(val size: Int) {
   MOTHERSHIP(size = 4),
   DESTROYER(size = 3),
   WARSHIP(size = 2),

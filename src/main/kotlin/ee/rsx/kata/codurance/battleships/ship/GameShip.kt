@@ -16,6 +16,13 @@ class GameShip(
     require(start.row == end.row || start.column == end.column) {
       "Ship must be placed horizontally or vertically"
     }
+
+    if (start.row == end.row) {
+      val lengthSpan = end.column.ordinal - start.column.ordinal + 1
+      if (lengthSpan < type.size) {
+        throw IllegalArgumentException("Given coordinates length is less than ship size")
+      }
+    }
   }
 
   override fun isAt(row: Row, column: Column): Boolean {
