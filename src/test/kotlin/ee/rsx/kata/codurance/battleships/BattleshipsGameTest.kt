@@ -172,4 +172,16 @@ class BattleshipsGameTest {
       }
     }
   }
+
+  @Test
+  fun `placing a MOTHERSHIP vertically to row span longer than its size throws exception`() {
+    with(game.addPlayer("John")) {
+
+      val test: () -> Unit = { place(MOTHERSHIP, start = Coordinates(B, ONE), end = Coordinates(B, FIVE)) }
+
+      assertThrows<IllegalArgumentException>(test).let {
+        assertThat(it.message).isEqualTo("Given coordinates length (5) is larger than ship size (4)")
+      }
+    }
+  }
 }
