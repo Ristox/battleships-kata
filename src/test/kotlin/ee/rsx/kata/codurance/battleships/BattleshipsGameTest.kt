@@ -184,4 +184,14 @@ class BattleshipsGameTest {
       }
     }
   }
+
+  @Test
+  fun `placing a DESTROYER horizontally succeeds also, when start column is larger than end column`() {
+    with(game.addPlayer("John")) {
+
+      val test: () -> Unit = { place(DESTROYER, start = Coordinates(E, TEN), end = Coordinates(E, EIGHT)) }
+
+      assertDoesNotThrow(test)
+    }
+  }
 }
