@@ -17,18 +17,14 @@ class GameShip(
       "Ship must be placed horizontally or vertically"
     }
 
-    if (start.row == end.row) {
-      val lengthSpan = end.column.ordinal - start.column.ordinal + 1
-      require(lengthSpan >= type.size) {
-        "Given coordinates length ($lengthSpan) is less than ship size (${type.size})"
-      }
+    val lengthSpan = if (start.row == end.row) {
+      end.column.ordinal - start.column.ordinal + 1
+    } else {
+      end.row.ordinal - start.row.ordinal + 1
     }
 
-    if (start.column == end.column) {
-      val lengthSpan = end.row.ordinal - start.row.ordinal + 1
-      require(lengthSpan >= type.size) {
-        "Given coordinates length ($lengthSpan) is less than ship size (${type.size})"
-      }
+    require(lengthSpan >= type.size) {
+      "Given coordinates length ($lengthSpan) is less than ship size (${type.size})"
     }
   }
 
