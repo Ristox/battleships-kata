@@ -204,4 +204,17 @@ class BattleshipsGameTest {
       assertDoesNotThrow(test)
     }
   }
+
+  @Test
+  fun `placing a MOTHERSHIP vertically and DESTROYER horizontally fails, when they cross`() {
+    with(game.addPlayer("John")) {
+
+      place(MOTHERSHIP, start = Coordinates(D, FOUR), end = Coordinates(G, FOUR))
+      val test: () -> Unit = { place(DESTROYER, start = Coordinates(F, THREE), end = Coordinates(F, FIVE))  }
+
+      assertThrows<IllegalStateException>(test).let {
+        assertThat(it.message).isEqualTo("Ship cannot be placed, since it would overlap with MOTHERSHIP at: (F, 4)")
+      }
+    }
+  }
 }
