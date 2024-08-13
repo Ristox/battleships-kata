@@ -12,6 +12,12 @@ class GameShip(
   override val end: Coordinates
 ) : Ship {
 
+  init {
+    if (start.row != end.row && start.column != end.column) {
+      throw IllegalArgumentException("Ship must be placed horizontally or vertically")
+    }
+  }
+
   override fun isAt(row: Row, column: Column): Boolean {
     val isHorizontal = start.row == row && end.row == row
     val isVertical = start.column == column && end.column == column
