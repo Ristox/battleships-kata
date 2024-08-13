@@ -26,6 +26,9 @@ class GameShip(
     require(lengthSpan >= type.size) {
       "Given coordinates length ($lengthSpan) is less than ship size (${type.size})"
     }
+    require(lengthSpan == type.size) {
+      "Given coordinates length ($lengthSpan) is larger than ship size (${type.size})"
+    }
   }
 
   override fun isAt(row: Row, column: Column): Boolean {
