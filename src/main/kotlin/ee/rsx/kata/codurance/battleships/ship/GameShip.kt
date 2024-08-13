@@ -19,8 +19,8 @@ class GameShip(
 
     if (start.row == end.row) {
       val lengthSpan = end.column.ordinal - start.column.ordinal + 1
-      if (lengthSpan < type.size) {
-        throw IllegalArgumentException("Given coordinates length is less than ship size")
+      require(lengthSpan >= type.size) {
+        "Given coordinates length ($lengthSpan) is less than ship size (${type.size})"
       }
     }
   }

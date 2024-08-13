@@ -144,7 +144,19 @@ class BattleshipsGameTest {
       val test: () -> Unit = { place(DESTROYER, start = Coordinates(E, FIVE), end = Coordinates(E, SIX)) }
 
       assertThrows<IllegalArgumentException>(test).let {
-        assertThat(it.message).isEqualTo("Given coordinates length is less than ship size")
+        assertThat(it.message).isEqualTo("Given coordinates length (2) is less than ship size (3)")
+      }
+    }
+  }
+
+  @Test
+  fun `placing a DESTROYER vertically to row span shorter than its size throws exception`() {
+    with(game.addPlayer("John")) {
+
+      val test: () -> Unit = { place(DESTROYER, start = Coordinates(E, TEN), end = Coordinates(F, TEN)) }
+
+      assertThrows<IllegalArgumentException>(test).let {
+        assertThat(it.message).isEqualTo("Given coordinates length (2) is less than ship size (3)")
       }
     }
   }
