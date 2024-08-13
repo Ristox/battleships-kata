@@ -23,6 +23,13 @@ class GameShip(
         "Given coordinates length ($lengthSpan) is less than ship size (${type.size})"
       }
     }
+
+    if (start.column == end.column) {
+      val lengthSpan = end.row.ordinal - start.row.ordinal + 1
+      require(lengthSpan >= type.size) {
+        "Given coordinates length ($lengthSpan) is less than ship size (${type.size})"
+      }
+    }
   }
 
   override fun isAt(row: Row, column: Column): Boolean {
