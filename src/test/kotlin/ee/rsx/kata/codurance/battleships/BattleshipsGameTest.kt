@@ -236,7 +236,7 @@ class BattleshipsGameTest {
   }
 
   @Test
-  fun `placing two ships (eg DESTROYERS) fails, when they touch eachother (coordinates are adjacent)`() {
+  fun `placing two ships (eg DESTROYERS) fails, when they touch each other (coordinates are adjacent)`() {
     with(game.addPlayer("John")) {
 
       place(DESTROYER, start = Coordinates(H, TWO), end = Coordinates(H, FOUR))
@@ -248,6 +248,5 @@ class BattleshipsGameTest {
         assertThat(it.message).isEqualTo("Ship cannot be placed, since it is adjacent to another DESTROYER at: [(H,2), (H,3), (H,4)]")
       }
     }
-
   }
 }
