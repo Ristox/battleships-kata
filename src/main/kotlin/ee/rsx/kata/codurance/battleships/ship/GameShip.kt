@@ -56,5 +56,4 @@ class GameShip(
 
     return rows.flatMap { row -> columns.map { column -> Coordinates(row, column) } }.toSet()
   }
-
 }
