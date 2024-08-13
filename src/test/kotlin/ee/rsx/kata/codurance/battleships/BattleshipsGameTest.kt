@@ -160,4 +160,16 @@ class BattleshipsGameTest {
       }
     }
   }
+
+  @Test
+  fun `placing a DESTROYER horizontally to column span longer than its size throws exception`() {
+    with(game.addPlayer("John")) {
+
+      val test: () -> Unit = { place(DESTROYER, start = Coordinates(E, FIVE), end = Coordinates(E, EIGHT)) }
+
+      assertThrows<IllegalArgumentException>(test).let {
+        assertThat(it.message).isEqualTo("Given coordinates length (2) is less than ship size (3)")
+      }
+    }
+  }
 }
