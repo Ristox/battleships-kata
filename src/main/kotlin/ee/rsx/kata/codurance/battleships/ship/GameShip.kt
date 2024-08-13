@@ -13,8 +13,8 @@ class GameShip(
 ) : Ship {
 
   init {
-    if (start.row != end.row && start.column != end.column) {
-      throw IllegalArgumentException("Ship must be placed horizontally or vertically")
+    require(start.row == end.row || start.column == end.column) {
+      "Ship must be placed horizontally or vertically"
     }
   }
 

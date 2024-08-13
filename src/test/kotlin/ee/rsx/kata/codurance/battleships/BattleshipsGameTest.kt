@@ -135,6 +135,5 @@ class BattleshipsGameTest {
         assertThat(it.message).isEqualTo("Ship must be placed horizontally or vertically")
       }
     }
-
   }
 }
