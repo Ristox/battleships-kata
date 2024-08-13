@@ -22,10 +22,13 @@ class GameShip(
     val startColumn = min(start.column.ordinal, end.column.ordinal)
     val endColumn = max(start.column.ordinal, end.column.ordinal)
 
+    val startRow = min(start.row.ordinal, end.row.ordinal)
+    val endRow = max(start.row.ordinal, end.row.ordinal)
+
     val lengthSpan = if (start.row == end.row) {
       endColumn - startColumn + 1
     } else {
-      end.row.ordinal - start.row.ordinal + 1
+      endRow - startRow + 1
     }
 
     require(lengthSpan >= type.size) {

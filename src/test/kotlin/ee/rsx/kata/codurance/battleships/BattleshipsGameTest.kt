@@ -199,7 +199,7 @@ class BattleshipsGameTest {
   fun `placing a MOTHERSHIP vertically succeeds also, when start row is larger than end row`() {
     with(game.addPlayer("John")) {
 
-      val test: () -> Unit = { place(DESTROYER, start = Coordinates(G, THREE), end = Coordinates(D, THREE)) }
+      val test: () -> Unit = { place(MOTHERSHIP, start = Coordinates(G, THREE), end = Coordinates(D, THREE)) }
 
       assertDoesNotThrow(test)
     }
