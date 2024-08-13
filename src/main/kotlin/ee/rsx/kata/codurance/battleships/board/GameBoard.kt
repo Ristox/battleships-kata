@@ -25,6 +25,17 @@ class GameBoard : Board {
   }
 
   override fun place(shipType: ShipType, start: Coordinates, end: Coordinates) {
-    ships.add(GameShip(shipType, start, end))
+    val newShip = GameShip(shipType, start, end)
+    ensureDoesNotOverlapWithOtherShips(newShip)
+    ships.add(newShip)
+  }
+
+  private fun ensureDoesNotOverlapWithOtherShips(newShip: GameShip) {
+    ships.forEach {
+      val overlap = it.overlapWith(newShip)
+      check(overlap.isEmpty()) {
+        "Ship cannot be placed, since it would overlap with ${it.type} at: $overlap"
+      }
+    }
   }
 }

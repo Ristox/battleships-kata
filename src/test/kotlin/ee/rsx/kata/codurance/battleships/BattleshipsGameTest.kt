@@ -213,7 +213,7 @@ class BattleshipsGameTest {
       val test: () -> Unit = { place(DESTROYER, start = Coordinates(F, THREE), end = Coordinates(F, FIVE))  }
 
       assertThrows<IllegalStateException>(test).let {
-        assertThat(it.message).isEqualTo("Ship cannot be placed, since it would overlap with MOTHERSHIP at: (F, 4)")
+        assertThat(it.message).isEqualTo("Ship cannot be placed, since it would overlap with MOTHERSHIP at: [(F,4)]")
       }
     }
   }

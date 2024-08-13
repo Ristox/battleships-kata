@@ -1,8 +1,14 @@
 package ee.rsx.kata.codurance.battleships
 
-data class Coordinates(val row: Row, val column: Column)
+data class Coordinates(val row: Row, val column: Column) {
+  override fun toString(): String {
+    return "($row,${column.index})"
+  }
+}
 
 fun Coordinates(row: Row, col: Int) = Coordinates(row, Column.entries.first { it.index == col })
+
+fun Coordinates(row: Int, col: Int) = Coordinates(Row.entries.first { it.index == row }, Column.entries.first { it.index == col })
 
 enum class Row(val index: Int) {
   A(1),

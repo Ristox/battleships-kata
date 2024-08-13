@@ -6,4 +6,6 @@ interface Ship {
   val end: Coordinates
 
   fun isAt(row: Row, column: Column): Boolean
+  fun coveredCoordinates(): Set<Coordinates>
+  fun overlapWith(another: Ship): Set<Coordinates>
 }

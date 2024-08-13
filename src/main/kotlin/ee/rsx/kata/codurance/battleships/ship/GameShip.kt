@@ -14,16 +14,16 @@ class GameShip(
   override val end: Coordinates
 ) : Ship {
 
+  private val startColumn = min(start.column.index, end.column.index)
+  private val endColumn = max(start.column.index, end.column.index)
+
+  private val startRow = min(start.row.index, end.row.index)
+  private val endRow = max(start.row.index, end.row.index)
+
   init {
     require(start.row == end.row || start.column == end.column) {
       "Ship must be placed horizontally or vertically"
     }
-
-    val startColumn = min(start.column.ordinal, end.column.ordinal)
-    val endColumn = max(start.column.ordinal, end.column.ordinal)
-
-    val startRow = min(start.row.ordinal, end.row.ordinal)
-    val endRow = max(start.row.ordinal, end.row.ordinal)
 
     val lengthSpan = if (start.row == end.row) {
       endColumn - startColumn + 1
@@ -46,4 +46,16 @@ class GameShip(
     return isHorizontal && start.column <= column && column <= end.column
       || isVertical && start.row <= row && row <= end.row
   }
+
+  override fun overlapWith(another: Ship): Set<Coordinates> =
+      coveredCoordinates().intersect(another.coveredCoordinates())
+
+  override fun coveredCoordinates(): Set<Coordinates> {
+
+    val rows: IntRange = startRow..endRow
+    val columns: IntRange = startColumn..endColumn
+
+    return rows.flatMap { row -> columns.map { column -> Coordinates(row, column) } }.toSet()
+  }
+
 }
