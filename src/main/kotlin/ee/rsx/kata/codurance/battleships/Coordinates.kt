@@ -8,7 +8,10 @@ data class Coordinates(val row: Row, val column: Column) {
 
 fun Coordinates(row: Row, col: Int) = Coordinates(row, Column.entries.first { it.index == col })
 
-fun Coordinates(row: Int, col: Int) = Coordinates(Row.entries.first { it.index == row }, Column.entries.first { it.index == col })
+fun Coordinates(row: Int, col: Int) = Coordinates(
+  Row.entries.first { it.index == row },
+  Column.entries.first { it.index == col }
+)
 
 enum class Row(val index: Int) {
   A(1),

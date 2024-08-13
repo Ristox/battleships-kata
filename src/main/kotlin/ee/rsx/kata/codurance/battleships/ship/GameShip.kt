@@ -51,7 +51,6 @@ class GameShip(
       coveredCoordinates().intersect(another.coveredCoordinates())
 
   override fun coveredCoordinates(): Set<Coordinates> {
-
     val rows: IntRange = startRow..endRow
     val columns: IntRange = startColumn..endColumn
 
