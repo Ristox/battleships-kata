@@ -168,7 +168,7 @@ class BattleshipsGameTest {
       val test: () -> Unit = { place(DESTROYER, start = Coordinates(E, FIVE), end = Coordinates(E, EIGHT)) }
 
       assertThrows<IllegalArgumentException>(test).let {
-        assertThat(it.message).isEqualTo("Given coordinates length (2) is less than ship size (3)")
+        assertThat(it.message).isEqualTo("Given coordinates length (4) is larger than ship size (3)")
       }
     }
   }
