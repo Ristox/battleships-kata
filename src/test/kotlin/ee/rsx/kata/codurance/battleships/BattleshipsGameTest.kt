@@ -210,10 +210,27 @@ class BattleshipsGameTest {
     with(game.addPlayer("John")) {
 
       place(MOTHERSHIP, start = Coordinates(D, FOUR), end = Coordinates(G, FOUR))
-      val test: () -> Unit = { place(DESTROYER, start = Coordinates(F, THREE), end = Coordinates(F, FIVE))  }
+      val test: () -> Unit = {
+        place(DESTROYER, start = Coordinates(F, THREE), end = Coordinates(F, FIVE))
+      }
 
       assertThrows<IllegalStateException>(test).let {
         assertThat(it.message).isEqualTo("Ship cannot be placed, since it would overlap with MOTHERSHIP at: [(F,4)]")
+      }
+    }
+  }
+
+  @Test
+  fun `placing two DESTROYERS horizontally fails, when they overlap each other`() {
+    with(game.addPlayer("John")) {
+
+      place(DESTROYER, start = Coordinates(H, TWO), end = Coordinates(H, FOUR))
+      val test: () -> Unit = {
+        place(DESTROYER, start = Coordinates(H, THREE), end = Coordinates(H, FIVE))
+      }
+
+      assertThrows<IllegalStateException>(test).let {
+        assertThat(it.message).isEqualTo("Ship cannot be placed, since it would overlap with DESTROYER at: [(H,3), (H,4)]")
       }
     }
   }
