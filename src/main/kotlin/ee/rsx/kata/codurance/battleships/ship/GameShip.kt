@@ -5,6 +5,8 @@ import ee.rsx.kata.codurance.battleships.Coordinates
 import ee.rsx.kata.codurance.battleships.Row
 import ee.rsx.kata.codurance.battleships.Ship
 import ee.rsx.kata.codurance.battleships.ShipType
+import kotlin.math.max
+import kotlin.math.min
 
 class GameShip(
   override val type: ShipType,
@@ -17,8 +19,11 @@ class GameShip(
       "Ship must be placed horizontally or vertically"
     }
 
+    val startColumn = min(start.column.ordinal, end.column.ordinal)
+    val endColumn = max(start.column.ordinal, end.column.ordinal)
+
     val lengthSpan = if (start.row == end.row) {
-      end.column.ordinal - start.column.ordinal + 1
+      endColumn - startColumn + 1
     } else {
       end.row.ordinal - start.row.ordinal + 1
     }
