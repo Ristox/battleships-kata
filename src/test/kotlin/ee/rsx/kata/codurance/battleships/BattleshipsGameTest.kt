@@ -309,14 +309,10 @@ class BattleshipsGameTest {
   @Test
   fun `placing three GUNSHIPS so that they touch in corners of their surrounding area, succeeds`() {
     with(game.addPlayer("John")) {
-      val gunshipOneLocation = Coordinates(B, 1)
-      place(GUNSHIP, start = gunshipOneLocation, end = gunshipOneLocation)
+      placeGunshipAt(B, 1)
 
-      val gunshipTwoLocation = Coordinates(A, 2)
-      val test: () -> Unit = { place(GUNSHIP, start = gunshipTwoLocation, end = gunshipTwoLocation) }
-
-      val gunshipThreeLocation = Coordinates(C, 2)
-      val test2: () -> Unit = { place(GUNSHIP, start = gunshipThreeLocation, end = gunshipThreeLocation) }
+      val test: () -> Unit = { placeGunshipAt(A, 2) }
+      val test2: () -> Unit = { placeGunshipAt(C, 2) }
 
       assertDoesNotThrow(test)
       assertDoesNotThrow(test2)
@@ -361,7 +357,7 @@ class BattleshipsGameTest {
   }
 
   @Test
-  fun `placing more than three WARSHIPS fails (only 2 is allowed)`() {
+  fun `placing more than three WARSHIPS fails (only 3 is allowed)`() {
     with(game.addPlayer("John")) {
       place(WARSHIP, start = Coordinates(D, 8), end = Coordinates(E, 8))
       place(WARSHIP, start = Coordinates(A,3), end = Coordinates(A,4))
@@ -374,4 +370,23 @@ class BattleshipsGameTest {
       }
     }
   }
+
+  @Test
+  fun `placing more than four GUNSHIPS fails (only 4 is allowed)`() {
+    with(game.addPlayer("John")) {
+      placeGunshipAt(A, 3)
+      placeGunshipAt(A, 7)
+      placeGunshipAt(I, 5)
+      placeGunshipAt(C, 9)
+
+      val test: () -> Unit = { placeGunshipAt(J, 9) }
+
+      assertThrows<IllegalStateException>(test).let {
+        assertThat(it.message).isEqualTo("Only 4 GUNSHIP-s can be placed")
+      }
+    }
+  }
+
+  private fun Player.placeGunshipAt(row: Row, column: Int) =
+    place(GUNSHIP, start = Coordinates(row, column), end = Coordinates(row, column))
 }
