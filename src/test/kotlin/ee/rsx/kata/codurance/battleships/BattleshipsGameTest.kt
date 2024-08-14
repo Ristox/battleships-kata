@@ -208,8 +208,8 @@ class BattleshipsGameTest {
   @Test
   fun `placing a MOTHERSHIP vertically and DESTROYER horizontally fails, when they cross`() {
     with(game.addPlayer("John")) {
-
       place(MOTHERSHIP, start = Coordinates(D, FOUR), end = Coordinates(G, FOUR))
+
       val test: () -> Unit = {
         place(DESTROYER, start = Coordinates(F, THREE), end = Coordinates(F, FIVE))
       }
@@ -223,8 +223,8 @@ class BattleshipsGameTest {
   @Test
   fun `placing two DESTROYERS horizontally fails, when they overlap each other`() {
     with(game.addPlayer("John")) {
-
       place(DESTROYER, start = Coordinates(H, TWO), end = Coordinates(H, FOUR))
+
       val test: () -> Unit = {
         place(DESTROYER, start = Coordinates(H, THREE), end = Coordinates(H, FIVE))
       }
@@ -238,8 +238,8 @@ class BattleshipsGameTest {
   @Test
   fun `placing two ships (eg DESTROYERS) fails, when they touch each other (coordinates are adjacent)`() {
     with(game.addPlayer("John")) {
-
       place(DESTROYER, start = Coordinates(H, TWO), end = Coordinates(H, FOUR))
+
       val test: () -> Unit = {
         place(DESTROYER, start = Coordinates(I, FOUR), end = Coordinates(I, SIX))
       }
@@ -256,8 +256,8 @@ class BattleshipsGameTest {
   @Test
   fun `placing two ships (a MOTHERSHIP and DESTROYER) vertically and horizontally fails, when part of them is adjacent`() {
     with(game.addPlayer("John")) {
-
       place(MOTHERSHIP, start = Coordinates(A, TWO), end = Coordinates(D, TWO))
+
       val test: () -> Unit = {
         place(DESTROYER, start = Coordinates(E, TWO), end = Coordinates(E, FOUR))
       }
@@ -268,6 +268,17 @@ class BattleshipsGameTest {
             "Ship cannot be placed, since it would be adjacent to another MOTHERSHIP at: [(A,2), (B,2), (C,2), (D,2)]"
           )
       }
+    }
+  }
+
+  @Test
+  fun `placing two ships horizontally, with one adjacent row in between, succeeds`() {
+    with(game.addPlayer("John")) {
+      place(DESTROYER, start = Coordinates(C, TWO), end = Coordinates(C, FOUR))
+
+      val test: () -> Unit = { place(DESTROYER, start = Coordinates(E, TWO), end = Coordinates(E, FOUR)) }
+
+      assertDoesNotThrow(test)
     }
   }
 }
