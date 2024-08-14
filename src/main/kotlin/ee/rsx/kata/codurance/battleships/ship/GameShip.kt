@@ -51,11 +51,11 @@ class GameShip(
       coveredCoordinates().intersect(another.coveredCoordinates())
 
   override fun isAdjacentTo(newShip: Ship): Boolean {
-    val areaStartRow = if (startRow == 1) 1 else startRow - 1
-    val areaEndRow = if (endRow == 10) 10 else endRow + 1
+    val areaStartRow = if (startRow.isFirst()) first() else startRow.previous()
+    val areaEndRow = if (endRow.isLast()) last() else endRow.next()
 
-    val areaStartColumn = if (startColumn == 1) 1 else startColumn - 1
-    val areaEndColumn = if (endColumn == 1) 1 else endColumn + 1
+    val areaStartColumn = if (startColumn.isFirst()) first() else startColumn.previous()
+    val areaEndColumn = if (endColumn.isFirst()) first() else endColumn.next()
 
     val rows: IntRange = areaStartRow..areaEndRow
     val columns: IntRange = areaStartColumn..areaEndColumn
@@ -111,4 +111,8 @@ class GameShip(
   private fun Int.previous() = this - 1
 
   private fun Int.next() = this + 1
+
+  private fun first() = 1
+
+  private fun last() = 10
 }
