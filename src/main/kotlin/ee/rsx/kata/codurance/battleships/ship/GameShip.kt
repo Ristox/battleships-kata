@@ -60,13 +60,41 @@ class GameShip(
     val rows: IntRange = areaStartRow..areaEndRow
     val columns: IntRange = areaStartColumn..areaEndColumn
 
-    val surroundingArea = rows.flatMap {
+    val forbiddenSurroundingArea = rows.flatMap {
       row -> columns.map { column -> Coordinates(row, column) }
     }
       .toSet()
       .minus(coveredCoordinates())
+      .minus(cornersOfSurroundingArea())
 
-    return newShip.coveredCoordinates().intersect(surroundingArea).isNotEmpty()
+    return newShip.coveredCoordinates()
+      .intersect(forbiddenSurroundingArea)
+      .isNotEmpty()
+  }
+
+  private fun cornersOfSurroundingArea(): Set<Coordinates> {
+    val upperLeftCorner: Coordinates? =
+      if (startRow == 1 || startColumn == 1) null
+        else Coordinates(startRow - 1, startColumn - 1)
+
+    val upperRightCorner: Coordinates? =
+      if (startRow == 1 || endColumn == 10) null
+        else Coordinates(startRow - 1, endColumn + 1)
+
+    val lowerLeftCorner: Coordinates? =
+      if (endRow == 10 || startColumn == 1) null
+        else Coordinates(endRow + 1, startColumn - 1)
+
+    val lowerRightCorner: Coordinates? =
+      if (endRow == 10 || endColumn == 10) null
+        else Coordinates(endRow + 1, endColumn + 1)
+
+    return setOfNotNull(
+      upperLeftCorner,
+      upperRightCorner,
+      lowerLeftCorner,
+      lowerRightCorner
+    )
   }
 
   override fun coveredCoordinates(): Set<Coordinates> {
