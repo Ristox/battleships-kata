@@ -3,6 +3,7 @@ package ee.rsx.kata.codurance.battleships
 import ee.rsx.kata.codurance.battleships.Column.*
 import ee.rsx.kata.codurance.battleships.Row.*
 import ee.rsx.kata.codurance.battleships.ShipType.DESTROYER
+import ee.rsx.kata.codurance.battleships.ShipType.GUNSHIP
 import ee.rsx.kata.codurance.battleships.ShipType.MOTHERSHIP
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
@@ -301,6 +302,23 @@ class BattleshipsGameTest {
       val test: () -> Unit = { place(DESTROYER, start = Coordinates(D, TWO), end = Coordinates(D, FOUR)) }
 
       assertDoesNotThrow(test)
+    }
+  }
+
+  @Test
+  fun `placing three GUNSHIPS so that they touch in corners of their surrounding area, succeeds`() {
+    with(game.addPlayer("John")) {
+      val gunshipOneLocation = Coordinates(B, 1)
+      place(GUNSHIP, start = gunshipOneLocation, end = gunshipOneLocation)
+
+      val gunshipTwoLocation = Coordinates(A, 2)
+      val test: () -> Unit = { place(GUNSHIP, start = gunshipTwoLocation, end = gunshipTwoLocation) }
+
+      val gunshipThreeLocation = Coordinates(C, 2)
+      val test2: () -> Unit = { place(GUNSHIP, start = gunshipThreeLocation, end = gunshipThreeLocation) }
+
+      assertDoesNotThrow(test)
+      assertDoesNotThrow(test2)
     }
   }
 }
