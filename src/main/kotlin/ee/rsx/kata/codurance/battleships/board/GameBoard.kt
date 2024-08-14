@@ -28,7 +28,17 @@ class GameBoard : Board {
     val newShip = GameShip(shipType, start, end)
     ensureDoesNotOverlapWithOtherShips(newShip)
     ensureIsNotAdjacentToOtherShips(newShip)
+    ensureShipsLimitNotFullFor(newShip)
     ships.add(newShip)
+  }
+
+  private fun ensureShipsLimitNotFullFor(newShip: GameShip) {
+    val existingShips = ships.count { it.type == newShip.type }
+    if (newShip.type == ShipType.MOTHERSHIP) {
+      check(existingShips < 1) {
+        "Only 1 ${newShip.type} can be placed"
+      }
+    }
   }
 
   private fun ensureDoesNotOverlapWithOtherShips(newShip: GameShip) {
