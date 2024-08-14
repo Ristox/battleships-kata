@@ -5,6 +5,7 @@ import ee.rsx.kata.codurance.battleships.Row.*
 import ee.rsx.kata.codurance.battleships.ShipType.DESTROYER
 import ee.rsx.kata.codurance.battleships.ShipType.GUNSHIP
 import ee.rsx.kata.codurance.battleships.ShipType.MOTHERSHIP
+import ee.rsx.kata.codurance.battleships.ShipType.WARSHIP
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -355,6 +356,21 @@ class BattleshipsGameTest {
 
       assertThrows<IllegalStateException>(test).let {
         assertThat(it.message).isEqualTo("Only 2 DESTROYER ships can be placed")
+      }
+    }
+  }
+
+  @Test
+  fun `placing more than three WARSHIPS fails (only 2 is allowed)`() {
+    with(game.addPlayer("John")) {
+      place(WARSHIP, start = Coordinates(D, 8), end = Coordinates(E, 8))
+      place(WARSHIP, start = Coordinates(A,3), end = Coordinates(A,4))
+      place(WARSHIP, start = Coordinates(C, 5), end = Coordinates(D, 5))
+
+      val test: () -> Unit = { place(WARSHIP, start = Coordinates(J, 7), end = Coordinates(J, 8)) }
+
+      assertThrows<IllegalStateException>(test).let {
+        assertThat(it.message).isEqualTo("Only 3 WARSHIP-s can be placed")
       }
     }
   }
