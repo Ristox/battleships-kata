@@ -245,7 +245,7 @@ class BattleshipsGameTest {
       }
 
       assertThrows<IllegalStateException>(test).let {
-        assertThat(it.message).isEqualTo("Ship cannot be placed, since it is adjacent to another DESTROYER at: [(H,2), (H,3), (H,4)]")
+        assertThat(it.message).isEqualTo("Ship cannot be placed, since it would be adjacent to another DESTROYER at: [(H,2), (H,3), (H,4)]")
       }
     }
   }

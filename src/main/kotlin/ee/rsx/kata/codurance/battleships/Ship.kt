@@ -8,4 +8,5 @@ interface Ship {
   fun isAt(row: Row, column: Column): Boolean
   fun coveredCoordinates(): Set<Coordinates>
   fun overlapWith(another: Ship): Set<Coordinates>
+  fun isAdjacentTo(newShip: Ship): Boolean
 }

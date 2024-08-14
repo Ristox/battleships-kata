@@ -50,6 +50,25 @@ class GameShip(
   override fun overlapWith(another: Ship): Set<Coordinates> =
       coveredCoordinates().intersect(another.coveredCoordinates())
 
+  override fun isAdjacentTo(newShip: Ship): Boolean {
+    val areaStartRow = if (startRow == 1) 1 else startRow - 1
+    val areaEndRow = if (endRow == 10) 10 else endRow + 1
+
+    val areaStartColumn = if (startColumn == 1) 1 else startColumn - 1
+    val areaEndColumn = if (endColumn == 1) 1 else endColumn + 1
+
+    val rows: IntRange = areaStartRow..areaEndRow
+    val columns: IntRange = areaStartColumn..areaEndColumn
+
+    val surroundingArea = rows.flatMap {
+      row -> columns.map { column -> Coordinates(row, column) }
+    }
+      .toSet()
+      .minus(coveredCoordinates())
+
+    return newShip.coveredCoordinates().intersect(surroundingArea).isNotEmpty()
+  }
+
   override fun coveredCoordinates(): Set<Coordinates> {
     val rows: IntRange = startRow..endRow
     val columns: IntRange = startColumn..endColumn
