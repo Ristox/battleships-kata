@@ -245,7 +245,28 @@ class BattleshipsGameTest {
       }
 
       assertThrows<IllegalStateException>(test).let {
-        assertThat(it.message).isEqualTo("Ship cannot be placed, since it would be adjacent to another DESTROYER at: [(H,2), (H,3), (H,4)]")
+        assertThat(it.message)
+          .isEqualTo(
+            "Ship cannot be placed, since it would be adjacent to another DESTROYER at: [(H,2), (H,3), (H,4)]"
+          )
+      }
+    }
+  }
+
+  @Test
+  fun `placing two ships (a MOTHERSHIP and DESTROYER) vertically and horizontally fails, when part of them is adjacent`() {
+    with(game.addPlayer("John")) {
+
+      place(MOTHERSHIP, start = Coordinates(A, TWO), end = Coordinates(D, TWO))
+      val test: () -> Unit = {
+        place(DESTROYER, start = Coordinates(E, TWO), end = Coordinates(E, FOUR))
+      }
+
+      assertThrows<IllegalStateException>(test).let {
+        assertThat(it.message)
+          .isEqualTo(
+            "Ship cannot be placed, since it would be adjacent to another MOTHERSHIP at: [(A,2), (B,2), (C,2), (D,2)]"
+          )
       }
     }
   }
