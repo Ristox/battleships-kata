@@ -45,7 +45,7 @@ class GameBoard : Board {
   }
 
   override fun shipsPlaced(): List<Ship> {
-    TODO("Not yet implemented")
+    return ships.toList()
   }
 
   private fun ensureShipsLimitNotFullFor(newShip: GameShip) {

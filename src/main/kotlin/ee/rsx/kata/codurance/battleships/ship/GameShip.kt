@@ -5,6 +5,7 @@ import ee.rsx.kata.codurance.battleships.Coordinates
 import ee.rsx.kata.codurance.battleships.Row
 import ee.rsx.kata.codurance.battleships.Ship
 import ee.rsx.kata.codurance.battleships.ShipType
+import ee.rsx.kata.codurance.battleships.ShipType.GUNSHIP
 import kotlin.math.max
 import kotlin.math.min
 
@@ -37,6 +38,13 @@ data class GameShip(
     require(lengthSpan == type.size) {
       "Given coordinates length ($lengthSpan) is larger than ship size (${type.size})"
     }
+  }
+
+  override fun toString(): String {
+    return if (type == GUNSHIP)
+      "$type at $start"
+    else
+      "$type from $start to $end"
   }
 
   override fun isAt(row: Row, column: Column): Boolean {
