@@ -344,4 +344,18 @@ class BattleshipsGameTest {
       }
     }
   }
+
+  @Test
+  fun `placing more than two DESTROYERS fails (only 2 is allowed)`() {
+    with(game.addPlayer("John")) {
+      place(DESTROYER, start = Coordinates(D, 8), end = Coordinates(F, 8))
+      place(DESTROYER, start = Coordinates(A,3), end = Coordinates(A,5))
+
+      val test: () -> Unit = { place(DESTROYER, start = Coordinates(C, 5), end = Coordinates(E, 5)) }
+
+      assertThrows<IllegalStateException>(test).let {
+        assertThat(it.message).isEqualTo("Only 2 DESTROYER ships can be placed")
+      }
+    }
+  }
 }
