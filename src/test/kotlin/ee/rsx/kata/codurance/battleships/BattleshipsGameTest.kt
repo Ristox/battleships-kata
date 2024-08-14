@@ -292,4 +292,15 @@ class BattleshipsGameTest {
       assertDoesNotThrow(test)
     }
   }
+
+  @Test
+  fun `placing two DESTROYERS, so that they touch in corners of their surrounding area, succeeds`() {
+    with(game.addPlayer("John")) {
+      place(DESTROYER, start = Coordinates(E, FIVE), end = Coordinates(E, SEVEN))
+
+      val test: () -> Unit = { place(DESTROYER, start = Coordinates(D, TWO), end = Coordinates(D, FOUR)) }
+
+      assertDoesNotThrow(test)
+    }
+  }
 }
