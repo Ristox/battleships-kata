@@ -46,6 +46,10 @@ class GameBoard : Board {
       check(existingShips < 3) {
         "Only 3 ${newShip.type}-s can be placed"
       }
+    } else if (newShip.type == ShipType.GUNSHIP) {
+      check(existingShips < 4) {
+        "Only 4 ${newShip.type}-s can be placed"
+      }
     }
   }
 
