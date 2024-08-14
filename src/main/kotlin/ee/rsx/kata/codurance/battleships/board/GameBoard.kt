@@ -15,6 +15,13 @@ class GameBoard : Board {
 
   private val ships: MutableList<GameShip> = mutableListOf()
 
+  private val shipsLimits:  Map<ShipType, Int> = mapOf(
+    MOTHERSHIP to 1,
+    DESTROYER to 2,
+    WARSHIP to 3,
+    GUNSHIP to 4
+  )
+
   override val rows: Set<Row>
     get() = Row.entries.toSet()
   override val columns: Set<Column>
@@ -38,19 +45,11 @@ class GameBoard : Board {
 
   private fun ensureShipsLimitNotFullFor(newShip: GameShip) {
     val existingShips = ships.count { it.type == newShip.type }
-    when (newShip.type) {
-      MOTHERSHIP -> check(existingShips < 1) {
-        "Only 1 ${newShip.type} can be placed"
-      }
-      DESTROYER -> check(existingShips < 2) {
-        "Only 2 ${newShip.type}-s can be placed"
-      }
-      WARSHIP -> check(existingShips < 3) {
-        "Only 3 ${newShip.type}-s can be placed"
-      }
-      GUNSHIP -> check(existingShips < 4) {
-        "Only 4 ${newShip.type}-s can be placed"
-      }
+    val shipLimit = shipsLimits.getValue(newShip.type)
+    val plural = if (shipLimit > 1) "-s" else ""
+
+    check(existingShips < shipLimit) {
+      "Only $shipLimit ${newShip.type}$plural can be placed"
     }
   }
 
