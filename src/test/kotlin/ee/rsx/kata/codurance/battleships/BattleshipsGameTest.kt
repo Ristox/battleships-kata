@@ -6,6 +6,7 @@ import ee.rsx.kata.codurance.battleships.ShipType.DESTROYER
 import ee.rsx.kata.codurance.battleships.ShipType.GUNSHIP
 import ee.rsx.kata.codurance.battleships.ShipType.MOTHERSHIP
 import ee.rsx.kata.codurance.battleships.ShipType.WARSHIP
+import ee.rsx.kata.codurance.battleships.ship.GameShip
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -386,6 +387,51 @@ class BattleshipsGameTest {
       }
     }
   }
+
+  @Test
+  fun `current board contains all the placed ships in expected locations`() {
+    with(game.addPlayer("John")) {
+      place(MOTHERSHIP, from(D, 8), to(G, 8))
+      place(DESTROYER, from(C, 5),to(C, 7))
+      place(DESTROYER, from(A, 2), to(A, 4))
+      place(WARSHIP, from(E, 2), to(F, 2))
+      place(WARSHIP, from(E, 5), to(E, 6))
+      place(WARSHIP, from(B, 10), to(C, 10))
+      placeGunshipAt(F, 4)
+      placeGunshipAt(H, 10)
+      placeGunshipAt(A, 6)
+      val board = placeGunshipAt(J, 2)
+
+      val shipsPlaced: List<Ship> = board.shipsPlaced()
+
+      assertThat(shipsPlaced).containsExactlyInAnyOrder(
+        MOTHERSHIP.placed(from(D, 8), to(G, 8)),
+
+        DESTROYER.placed(from(C, 5), to(C, 7)),
+        DESTROYER.placed(from(A, 2), to(A, 4)),
+
+        WARSHIP.placed(from(E, 2), to(F, 2)),
+        WARSHIP.placed(from(E, 5), to(E, 6)),
+        WARSHIP.placed(from(B, 10), to(C, 10)),
+
+        gunship(at(F, 4)),
+        gunship(at(H, 10)),
+        gunship(at(A, 6)),
+        gunship(at(J, 2))
+      )
+    }
+  }
+
+  private fun ShipType.placed(start: Coordinates, end: Coordinates) =
+    GameShip(this, start, end)
+
+  private fun gunship(location: Coordinates) = GameShip(GUNSHIP, location, location)
+
+  private fun from(row: Row, column: Int) = Coordinates(row, column)
+
+  private fun to(row: Row, column: Int) = Coordinates(row, column)
+
+  private fun at(row: Row, column: Int) = Coordinates(row, column)
 
   private fun Player.placeGunshipAt(row: Row, column: Int) =
     place(GUNSHIP, start = Coordinates(row, column), end = Coordinates(row, column))

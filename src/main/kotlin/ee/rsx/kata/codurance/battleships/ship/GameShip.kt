@@ -8,7 +8,7 @@ import ee.rsx.kata.codurance.battleships.ShipType
 import kotlin.math.max
 import kotlin.math.min
 
-class GameShip(
+data class GameShip(
   override val type: ShipType,
   override val start: Coordinates,
   override val end: Coordinates
@@ -55,7 +55,7 @@ class GameShip(
     val areaEndRow = if (endRow.isLast()) last() else endRow.next()
 
     val areaStartColumn = if (startColumn.isFirst()) first() else startColumn.previous()
-    val areaEndColumn = if (endColumn.isFirst()) first() else endColumn.next()
+    val areaEndColumn = if (endColumn.isLast()) last() else endColumn.next()
 
     val rows: IntRange = areaStartRow..areaEndRow
     val columns: IntRange = areaStartColumn..areaEndColumn
