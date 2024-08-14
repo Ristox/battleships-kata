@@ -5,6 +5,10 @@ import ee.rsx.kata.codurance.battleships.Column
 import ee.rsx.kata.codurance.battleships.Coordinates
 import ee.rsx.kata.codurance.battleships.Row
 import ee.rsx.kata.codurance.battleships.ShipType
+import ee.rsx.kata.codurance.battleships.ShipType.DESTROYER
+import ee.rsx.kata.codurance.battleships.ShipType.GUNSHIP
+import ee.rsx.kata.codurance.battleships.ShipType.MOTHERSHIP
+import ee.rsx.kata.codurance.battleships.ShipType.WARSHIP
 import ee.rsx.kata.codurance.battleships.ship.GameShip
 
 class GameBoard : Board {
@@ -34,20 +38,17 @@ class GameBoard : Board {
 
   private fun ensureShipsLimitNotFullFor(newShip: GameShip) {
     val existingShips = ships.count { it.type == newShip.type }
-    if (newShip.type == ShipType.MOTHERSHIP) {
-      check(existingShips < 1) {
+    when (newShip.type) {
+      MOTHERSHIP -> check(existingShips < 1) {
         "Only 1 ${newShip.type} can be placed"
       }
-    } else if (newShip.type == ShipType.DESTROYER) {
-      check(existingShips < 2) {
+      DESTROYER -> check(existingShips < 2) {
         "Only 2 ${newShip.type}-s can be placed"
       }
-    } else if (newShip.type == ShipType.WARSHIP) {
-      check(existingShips < 3) {
+      WARSHIP -> check(existingShips < 3) {
         "Only 3 ${newShip.type}-s can be placed"
       }
-    } else if (newShip.type == ShipType.GUNSHIP) {
-      check(existingShips < 4) {
+      GUNSHIP -> check(existingShips < 4) {
         "Only 4 ${newShip.type}-s can be placed"
       }
     }
