@@ -281,4 +281,15 @@ class BattleshipsGameTest {
       assertDoesNotThrow(test)
     }
   }
+
+  @Test
+  fun `placing two ships, DESTROYER vertically and MOTHERSHIP horizontally, with space between them, succeeds`() {
+    with(game.addPlayer("John")) {
+      place(DESTROYER, start = Coordinates(D, EIGHT), end = Coordinates(F, EIGHT))
+
+      val test: () -> Unit = { place(MOTHERSHIP, start = Coordinates(H, SEVEN), end = Coordinates(H, TEN)) }
+
+      assertDoesNotThrow(test)
+    }
+  }
 }
