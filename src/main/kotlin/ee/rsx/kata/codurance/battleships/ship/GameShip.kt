@@ -72,22 +72,29 @@ class GameShip(
       .isNotEmpty()
   }
 
+  override fun coveredCoordinates(): Set<Coordinates> {
+    val rows: IntRange = startRow..endRow
+    val columns: IntRange = startColumn..endColumn
+
+    return rows.flatMap { row -> columns.map { column -> Coordinates(row, column) } }.toSet()
+  }
+
   private fun cornersOfSurroundingArea(): Set<Coordinates> {
-    val upperLeftCorner: Coordinates? =
-      if (startRow == 1 || startColumn == 1) null
-        else Coordinates(startRow - 1, startColumn - 1)
+    val upperLeftCorner =
+      if (startRow.isFirst() || startColumn.isFirst()) null
+        else Coordinates(startRow.previous(), startColumn.previous())
 
-    val upperRightCorner: Coordinates? =
-      if (startRow == 1 || endColumn == 10) null
-        else Coordinates(startRow - 1, endColumn + 1)
+    val upperRightCorner =
+      if (startRow.isFirst() || endColumn.isLast()) null
+        else Coordinates(startRow.previous(), endColumn.next())
 
-    val lowerLeftCorner: Coordinates? =
-      if (endRow == 10 || startColumn == 1) null
-        else Coordinates(endRow + 1, startColumn - 1)
+    val lowerLeftCorner =
+      if (endRow.isFirst() || startColumn.isFirst()) null
+        else Coordinates(endRow.next(), startColumn.previous())
 
-    val lowerRightCorner: Coordinates? =
-      if (endRow == 10 || endColumn == 10) null
-        else Coordinates(endRow + 1, endColumn + 1)
+    val lowerRightCorner =
+      if (endRow.isLast() || endColumn.isLast()) null
+        else Coordinates(endRow.next(), endColumn.next())
 
     return setOfNotNull(
       upperLeftCorner,
@@ -97,10 +104,11 @@ class GameShip(
     )
   }
 
-  override fun coveredCoordinates(): Set<Coordinates> {
-    val rows: IntRange = startRow..endRow
-    val columns: IntRange = startColumn..endColumn
+  private fun Int.isFirst() = this == 1
 
-    return rows.flatMap { row -> columns.map { column -> Coordinates(row, column) } }.toSet()
-  }
+  private fun Int.isLast() = this == 10
+
+  private fun Int.previous() = this - 1
+
+  private fun Int.next() = this + 1
 }
