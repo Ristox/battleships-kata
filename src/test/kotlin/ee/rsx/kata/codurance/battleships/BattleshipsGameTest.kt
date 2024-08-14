@@ -330,4 +330,18 @@ class BattleshipsGameTest {
       assertDoesNotThrow(test)
     }
   }
+
+  @Test
+  fun `placing more than one MOTHERSHIP fails (only 1 is allowed)`() {
+    with(game.addPlayer("John")) {
+      place(MOTHERSHIP, start = Coordinates(D, 8), end = Coordinates(G, 8))
+      place(DESTROYER, start = Coordinates(A,3), end = Coordinates(A,5))
+
+      val test: () -> Unit = { place(MOTHERSHIP, start = Coordinates(C, 5), end = Coordinates(F, 5)) }
+
+      assertThrows<IllegalStateException>(test).let {
+        assertThat(it.message).isEqualTo("Only 1 MOTHERSHIP can be placed")
+      }
+    }
+  }
 }
