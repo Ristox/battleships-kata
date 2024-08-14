@@ -40,7 +40,11 @@ class GameBoard : Board {
       }
     } else if (newShip.type == ShipType.DESTROYER) {
       check(existingShips < 2) {
-        "Only 2 ${newShip.type} ships can be placed"
+        "Only 2 ${newShip.type}-s can be placed"
+      }
+    } else if (newShip.type == ShipType.WARSHIP) {
+      check(existingShips < 3) {
+        "Only 3 ${newShip.type}-s can be placed"
       }
     }
   }

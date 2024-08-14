@@ -355,7 +355,7 @@ class BattleshipsGameTest {
       val test: () -> Unit = { place(DESTROYER, start = Coordinates(C, 5), end = Coordinates(E, 5)) }
 
       assertThrows<IllegalStateException>(test).let {
-        assertThat(it.message).isEqualTo("Only 2 DESTROYER ships can be placed")
+        assertThat(it.message).isEqualTo("Only 2 DESTROYER-s can be placed")
       }
     }
   }
