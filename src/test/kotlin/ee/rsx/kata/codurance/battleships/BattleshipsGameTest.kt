@@ -321,4 +321,13 @@ class BattleshipsGameTest {
       assertDoesNotThrow(test2)
     }
   }
+
+  @Test
+  fun `placing one MOTHERSHIP is successful`() {
+    with(game.addPlayer("John")) {
+      val test: () -> Unit = { place(MOTHERSHIP, start = Coordinates(D, EIGHT), end = Coordinates(G, EIGHT)) }
+
+      assertDoesNotThrow(test)
+    }
+  }
 }
