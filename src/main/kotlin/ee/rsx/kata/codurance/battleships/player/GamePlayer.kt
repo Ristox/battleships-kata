@@ -22,6 +22,10 @@ class GamePlayer(override val name: String) : Player {
     return board.shipAt(row, column)?.type
   }
 
+  override fun shipTypeAt(row: Row, column: Int): ShipType? {
+    return shipTypeAt(row, Column.entries.first { it.index == column })
+  }
+
   override fun fireAtOpponent(coordinates: Coordinates): FiringResult {
     TODO("Not yet implemented")
   }

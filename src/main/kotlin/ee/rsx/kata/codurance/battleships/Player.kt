@@ -6,5 +6,6 @@ interface Player {
 
   fun place(shipType: ShipType, start: Coordinates, end: Coordinates): Board
   fun shipTypeAt(row: Row, column: Column): ShipType?
+  fun shipTypeAt(row: Row, column: Int): ShipType?
   fun fireAtOpponent(coordinates: Coordinates): FiringResult
 }
