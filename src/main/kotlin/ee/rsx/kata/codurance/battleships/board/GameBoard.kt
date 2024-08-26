@@ -4,7 +4,6 @@ import ee.rsx.kata.codurance.battleships.Board
 import ee.rsx.kata.codurance.battleships.Column
 import ee.rsx.kata.codurance.battleships.Coordinates
 import ee.rsx.kata.codurance.battleships.Row
-import ee.rsx.kata.codurance.battleships.Ship
 import ee.rsx.kata.codurance.battleships.ShipType
 import ee.rsx.kata.codurance.battleships.ShipType.DESTROYER
 import ee.rsx.kata.codurance.battleships.ShipType.GUNSHIP
@@ -42,6 +41,9 @@ class GameBoard : Board {
     ensureShipsLimitNotFullFor(newShip)
     ships.add(newShip)
   }
+
+  override fun allShipsHaveBeenPlaced() =
+    shipsPlaced().size == shipsLimits.values.sum()
 
   override fun shipsPlaced() = ships.toList()
 

@@ -9,5 +9,6 @@ interface Board {
   fun print()
   fun shipAt(row: Row, column: Column): GameShip?
   fun place(shipType: ShipType, start: Coordinates, end: Coordinates)
+  fun allShipsHaveBeenPlaced(): Boolean
   fun shipsPlaced(): List<Ship>
 }
