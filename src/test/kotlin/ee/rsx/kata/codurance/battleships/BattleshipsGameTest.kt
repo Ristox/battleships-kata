@@ -421,6 +421,31 @@ class BattleshipsGameTest {
     }
   }
 
+  @Test
+  fun `game can be started when both players have placed their ships`() {
+    game.addPlayer("John").placeDefaultShips()
+    game.addPlayer("James").placeDefaultShips()
+
+    assertDoesNotThrow { game.start() }
+  }
+
+  private fun Player.placeDefaultShips() {
+    place(MOTHERSHIP, from(D, 8), to(G, 8))
+
+    place(DESTROYER, from(C, 5),to(C, 7))
+    place(DESTROYER, from(A, 2), to(A, 4))
+
+    place(WARSHIP, from(E, 2), to(F, 2))
+    place(WARSHIP, from(E, 5), to(E, 6))
+    place(WARSHIP, from(B, 10), to(C, 10))
+
+    placeGunshipAt(F, 4)
+    placeGunshipAt(H, 10)
+    placeGunshipAt(A, 6)
+    placeGunshipAt(J, 2)
+  }
+
+
   private fun ShipType.placed(start: Coordinates, end: Coordinates) =
     GameShip(this, start, end)
 
