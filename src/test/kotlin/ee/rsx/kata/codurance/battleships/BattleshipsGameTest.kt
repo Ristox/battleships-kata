@@ -445,7 +445,6 @@ class BattleshipsGameTest {
     placeGunshipAt(J, 2)
   }
 
-
   private fun ShipType.placed(start: Coordinates, end: Coordinates) =
     GameShip(this, start, end)
 
