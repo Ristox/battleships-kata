@@ -449,6 +449,17 @@ class BattleshipsGameTest {
     }
   }
 
+  @Test
+  fun `adding a player fails, if another player with same name already exists`() {
+    game.addPlayer("James")
+
+    val test: () -> Unit = { game.addPlayer("James") }
+
+    assertThrows<IllegalArgumentException>(test).let {
+      assertThat(it.message).isEqualTo("Player with the same name already exists")
+    }
+  }
+
   private fun Player.placeDefaultShips() {
     place(MOTHERSHIP, from(D, 8), to(G, 8))
     placeDefaultDestroyers()
