@@ -15,7 +15,7 @@ class BattleshipsGame : Battleships {
 
     players.forEach { player ->
       require(player.name != name) {
-        "Player with the same name already exists"
+        "Player with the same name ($name) already exists"
       }
     }
 

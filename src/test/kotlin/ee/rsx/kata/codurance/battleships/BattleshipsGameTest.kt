@@ -456,7 +456,7 @@ class BattleshipsGameTest {
     val test: () -> Unit = { game.addPlayer("James") }
 
     assertThrows<IllegalArgumentException>(test).let {
-      assertThat(it.message).isEqualTo("Player with the same name already exists")
+      assertThat(it.message).isEqualTo("Player with the same name (James) already exists")
     }
   }
 
