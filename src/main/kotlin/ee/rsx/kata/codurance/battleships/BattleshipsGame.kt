@@ -16,7 +16,7 @@ class BattleshipsGame : Battleships {
     check(players.size == 2) { "2 players must be added before starting the game" }
 
     players.forEach {
-      check(it.board.shipsPlaced().isNotEmpty()) {
+      check(it.hasPlacedAllShips()) {
         "Each player must place their ships before starting the game"
       }
     }

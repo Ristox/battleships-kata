@@ -18,6 +18,8 @@ class GamePlayer(override val name: String) : Player {
     return board
   }
 
+  override fun hasPlacedAllShips() = board.shipsPlaced().isNotEmpty()
+
   override fun shipTypeAt(row: Row, column: Column): ShipType? {
     return board.shipAt(row, column)?.type
   }
