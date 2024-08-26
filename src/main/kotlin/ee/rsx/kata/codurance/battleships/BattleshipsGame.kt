@@ -13,6 +13,12 @@ class BattleshipsGame : Battleships {
   override fun addPlayer(name: String): Player {
     check(players.size < PLAYERS_COUNT) { "Maximum of $PLAYERS_COUNT players can be added" }
 
+    players.forEach { player ->
+      require(player.name != name) {
+        "Player with the same name already exists"
+      }
+    }
+
     return GamePlayer(name).apply { players.add(this) }
   }
 
