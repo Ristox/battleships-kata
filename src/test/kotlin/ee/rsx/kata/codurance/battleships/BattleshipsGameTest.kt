@@ -460,6 +460,20 @@ class BattleshipsGameTest {
     }
   }
 
+  @Test
+  fun `player cannot fire, when game has not been started yet`() {
+    val john = game.addPlayer("John")
+    john.placeDefaultShips()
+    val james = game.addPlayer("James")
+    james.placeDefaultShips()
+
+    val test: () -> Unit = { john.fireAtOpponent(at(A,1)) }
+
+    assertThrows<IllegalStateException>(test).let {
+      assertThat(it.message).isEqualTo("cannot fire, game has not been started yet")
+    }
+  }
+
   private fun Player.placeDefaultShips() {
     place(MOTHERSHIP, from(D, 8), to(G, 8))
     placeDefaultDestroyers()
