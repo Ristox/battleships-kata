@@ -32,9 +32,8 @@ class GameBoard : Board {
     TODO("Not yet implemented")
   }
 
-  override fun shipAt(row: Row, column: Column): GameShip? {
-    return ships.find { it.isAt(row, column) }
-  }
+  override fun shipAt(row: Row, column: Column): GameShip? =
+    ships.find { it.isAt(row, column) }
 
   override fun place(shipType: ShipType, start: Coordinates, end: Coordinates) {
     val newShip = GameShip(shipType, start, end)
@@ -44,9 +43,7 @@ class GameBoard : Board {
     ships.add(newShip)
   }
 
-  override fun shipsPlaced(): List<Ship> {
-    return ships.toList()
-  }
+  override fun shipsPlaced() = ships.toList()
 
   private fun ensureShipsLimitNotFullFor(newShip: GameShip) {
     val existingShips = ships.count { it.type == newShip.type }
