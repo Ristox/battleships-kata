@@ -429,16 +429,45 @@ class BattleshipsGameTest {
     assertDoesNotThrow { game.start() }
   }
 
+  @Test
+  fun `game cannot be started when one of players has a ship missing (a DESTROYER)`() {
+    game.addPlayer("John").placeDefaultShips()
+
+    with(game.addPlayer("James")) {
+      place(MOTHERSHIP, from(D, 8), to(G, 8))
+
+      place(DESTROYER, from(A, 2), to(A, 4))
+
+      placeDefaultWarships()
+      placeDefaultGunships()
+    }
+
+    val test = { game.start() }
+
+    assertThrows<IllegalStateException>(test).let {
+      assertThat(it.message).isEqualTo("Each player must place their ships before starting the game")
+    }
+  }
+
   private fun Player.placeDefaultShips() {
     place(MOTHERSHIP, from(D, 8), to(G, 8))
+    placeDefaultDestroyers()
+    placeDefaultWarships()
+    placeDefaultGunships()
+  }
 
-    place(DESTROYER, from(C, 5),to(C, 7))
+  private fun Player.placeDefaultDestroyers() {
+    place(DESTROYER, from(C, 5), to(C, 7))
     place(DESTROYER, from(A, 2), to(A, 4))
+  }
 
+  private fun Player.placeDefaultWarships() {
     place(WARSHIP, from(E, 2), to(F, 2))
     place(WARSHIP, from(E, 5), to(E, 6))
     place(WARSHIP, from(B, 10), to(C, 10))
+  }
 
+  private fun Player.placeDefaultGunships() {
     placeGunshipAt(F, 4)
     placeGunshipAt(H, 10)
     placeGunshipAt(A, 6)
