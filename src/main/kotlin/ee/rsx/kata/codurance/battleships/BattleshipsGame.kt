@@ -10,6 +10,8 @@ class BattleshipsGame : Battleships {
 
   private val players = mutableListOf<GamePlayer>()
 
+  private var currentPlayer: Player? = null
+
   override fun addPlayer(name: String): Player {
     check(players.size < PLAYERS_COUNT) { "Maximum of $PLAYERS_COUNT players can be added" }
 
@@ -30,13 +32,13 @@ class BattleshipsGame : Battleships {
         "Each player must place their ships before starting the game"
       }
     }
+
+    currentPlayer = players.first()
   }
 
   override fun print() {
     TODO("Not yet implemented")
   }
 
-  override fun currentPlayer(): Player? {
-    return null
-  }
+  override fun currentPlayer() = currentPlayer
 }
