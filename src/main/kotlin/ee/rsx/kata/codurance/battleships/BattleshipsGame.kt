@@ -1,5 +1,6 @@
 package ee.rsx.kata.codurance.battleships
 
+import ee.rsx.kata.codurance.battleships.ResultType.HIT
 import ee.rsx.kata.codurance.battleships.ResultType.MISSED
 import ee.rsx.kata.codurance.battleships.player.GamePlayer
 
@@ -46,6 +47,15 @@ class BattleshipsGame : Battleships {
     checkNotNull(currentPlayer) {
       "cannot fire, game has not been started yet"
     }
-    return FiringResult(at, MISSED)
+
+    val opponent = players.filterNot { currentPlayer == it }.first()
+
+    val shipTypeAt = opponent.shipTypeAt(at.row, at.column)
+
+    return if (shipTypeAt == null) {
+      FiringResult(at, MISSED)
+    } else {
+      FiringResult(at, HIT)
+    }
   }
 }
