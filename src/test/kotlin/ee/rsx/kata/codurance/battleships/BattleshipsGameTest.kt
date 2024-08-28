@@ -9,6 +9,8 @@ import ee.rsx.kata.codurance.battleships.ship.GameShip
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
@@ -473,29 +475,41 @@ class BattleshipsGameTest {
   }
 
   @Test
-  fun `when game has been started, first player is the current player`() {
-    val john = game.addPlayer("John")
-    john.placeDefaultShips()
-    val james = game.addPlayer("James")
-    james.placeDefaultShips()
-    game.start()
-
-    val currentPlayer = game.currentPlayer()
-
-    assertThat(currentPlayer).isEqualTo(john)
-  }
-
-  @Test
   fun `when game has not yet been started, player cannot fire`() {
-    val john = game.addPlayer("John")
-    john.placeDefaultShips()
-    val james = game.addPlayer("James")
-    james.placeDefaultShips()
-
     val test: () -> Unit = { game.fire(at(A,1)) }
 
     assertThrows<IllegalStateException>(test).let {
       assertThat(it.message).isEqualTo("cannot fire, game has not been started yet")
+    }
+  }
+
+
+  @Nested
+  @DisplayName("When game has been started")
+  inner class WhenGameHasBeenStarted {
+    private lateinit var john: Player
+
+    private lateinit var james: Player
+
+    @BeforeEach
+    fun setup() {
+      john = game.addPlayer("John")
+      james = game.addPlayer("James")
+      john.placeDefaultShips()
+      james.placeDefaultShips()
+      game.start()
+    }
+
+    @Test
+    fun `when game has been started, first player is the current player`() {
+      val currentPlayer = game.currentPlayer()
+
+      assertThat(currentPlayer).isEqualTo(john)
+    }
+
+    @Test
+    fun `when game has been started, player can fire`() {
+      assertDoesNotThrow { game.fire(at(A,1)) }
     }
   }
 
