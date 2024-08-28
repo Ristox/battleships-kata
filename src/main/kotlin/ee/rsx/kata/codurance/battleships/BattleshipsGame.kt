@@ -43,19 +43,17 @@ class BattleshipsGame : Battleships {
 
   override fun currentPlayer() = currentPlayer
 
+  private fun opponent() = players.filterNot { it == currentPlayer }.first()
+
   override fun fire(at: Coordinates): FiringResult {
     checkNotNull(currentPlayer) {
       "cannot fire, game has not been started yet"
     }
 
-    val opponent = players.filterNot { currentPlayer == it }.first()
+    val shipAtFiredCoordinates = opponent().shipTypeAt(at.row, at.column)
 
-    val shipTypeAt = opponent.shipTypeAt(at.row, at.column)
+    val result = shipAtFiredCoordinates?.let { HIT } ?: MISSED
 
-    return if (shipTypeAt == null) {
-      FiringResult(at, MISSED)
-    } else {
-      FiringResult(at, HIT)
-    }
+    return FiringResult(at, result)
   }
 }
