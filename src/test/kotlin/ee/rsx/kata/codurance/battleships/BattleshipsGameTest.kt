@@ -1,5 +1,6 @@
 package ee.rsx.kata.codurance.battleships
 
+import ee.rsx.kata.codurance.battleships.ResultType.MISSED
 import ee.rsx.kata.codurance.battleships.Row.*
 import ee.rsx.kata.codurance.battleships.ShipType.DESTROYER
 import ee.rsx.kata.codurance.battleships.ShipType.GUNSHIP
@@ -501,15 +502,24 @@ class BattleshipsGameTest {
     }
 
     @Test
-    fun `when game has been started, first player is the current player`() {
+    fun `first player is the current player`() {
       val currentPlayer = game.currentPlayer()
 
       assertThat(currentPlayer).isEqualTo(john)
     }
 
     @Test
-    fun `when game has been started, player can fire`() {
+    fun `player can fire`() {
       assertDoesNotThrow { game.fire(at(A,1)) }
+    }
+
+    @Test
+    fun `firing result is a miss, when opponent has no ship at coordinate fired`() {
+      val result = game.fire(at(A,1))
+
+      result!!.type.let {
+        assertThat(it).isEqualTo(MISSED)
+      }
     }
   }
 

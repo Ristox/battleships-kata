@@ -41,9 +41,10 @@ class BattleshipsGame : Battleships {
 
   override fun currentPlayer() = currentPlayer
 
-  override fun fire(at: Coordinates) {
+  override fun fire(at: Coordinates): FiringResult? {
     checkNotNull(currentPlayer) {
       "cannot fire, game has not been started yet"
     }
+    return null
   }
 }

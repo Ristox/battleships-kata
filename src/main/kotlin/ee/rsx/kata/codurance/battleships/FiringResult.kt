@@ -1,5 +1,10 @@
 package ee.rsx.kata.codurance.battleships
 
-interface FiringResult {
-  val opponentBoard: OpponentBoard
+data class FiringResult(
+  val coordinatesFired: Coordinates,
+  val type: ResultType
+)
+
+enum class ResultType {
+  MISSED
 }
