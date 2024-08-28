@@ -42,6 +42,6 @@ class BattleshipsGame : Battleships {
   override fun currentPlayer() = currentPlayer
 
   override fun fire(at: Coordinates) {
-    TODO("Not yet implemented")
+    throw IllegalStateException("cannot fire, game has not been started yet")
   }
 }
