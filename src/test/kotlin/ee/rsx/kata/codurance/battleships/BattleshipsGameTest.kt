@@ -474,6 +474,18 @@ class BattleshipsGameTest {
     }
   }
 
+  @Test
+  fun `when game has not been started, there is no current player`() {
+    val john = game.addPlayer("John")
+    john.placeDefaultShips()
+    val james = game.addPlayer("James")
+    james.placeDefaultShips()
+
+    val currentPlayer = game.currentPlayer()
+
+    assertThat(currentPlayer).isNull()
+  }
+
   private fun Player.placeDefaultShips() {
     place(MOTHERSHIP, from(D, 8), to(G, 8))
     placeDefaultDestroyers()
