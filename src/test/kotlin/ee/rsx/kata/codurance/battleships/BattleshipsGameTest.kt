@@ -486,6 +486,19 @@ class BattleshipsGameTest {
     assertThat(currentPlayer).isNull()
   }
 
+  @Test
+  fun `when game has been started, first player is the current player`() {
+    val john = game.addPlayer("John")
+    john.placeDefaultShips()
+    val james = game.addPlayer("James")
+    james.placeDefaultShips()
+    game.start()
+
+    val currentPlayer = game.currentPlayer()
+
+    assertThat(currentPlayer).isEqualTo(john)
+  }
+
   private fun Player.placeDefaultShips() {
     place(MOTHERSHIP, from(D, 8), to(G, 8))
     placeDefaultDestroyers()
