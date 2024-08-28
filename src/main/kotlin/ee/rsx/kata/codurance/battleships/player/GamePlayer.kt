@@ -25,6 +25,7 @@ class GamePlayer(override val name: String) : Player {
     shipTypeAt(row, Column.entries.first { it.index == column })
 
   override fun fireAtOpponent(coordinates: Coordinates): FiringResult {
-    TODO("Not yet implemented")
+    // TODO restructure (player knows nothing about game, but for firing it should)
+    throw IllegalStateException("cannot fire, game has not been started yet")
   }
 }
