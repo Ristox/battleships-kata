@@ -1,14 +1,25 @@
 package ee.rsx.kata.codurance.battleships
 
+import ee.rsx.kata.codurance.battleships.ResultType.HIT
 import ee.rsx.kata.codurance.battleships.ResultType.MISSED
-import ee.rsx.kata.codurance.battleships.Row.*
+import ee.rsx.kata.codurance.battleships.Row.A
+import ee.rsx.kata.codurance.battleships.Row.B
+import ee.rsx.kata.codurance.battleships.Row.C
+import ee.rsx.kata.codurance.battleships.Row.D
+import ee.rsx.kata.codurance.battleships.Row.E
+import ee.rsx.kata.codurance.battleships.Row.F
+import ee.rsx.kata.codurance.battleships.Row.G
+import ee.rsx.kata.codurance.battleships.Row.H
+import ee.rsx.kata.codurance.battleships.Row.I
+import ee.rsx.kata.codurance.battleships.Row.J
 import ee.rsx.kata.codurance.battleships.ShipType.DESTROYER
 import ee.rsx.kata.codurance.battleships.ShipType.GUNSHIP
 import ee.rsx.kata.codurance.battleships.ShipType.MOTHERSHIP
 import ee.rsx.kata.codurance.battleships.ShipType.WARSHIP
 import ee.rsx.kata.codurance.battleships.ship.GameShip
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertDoesNotThrow
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
@@ -517,6 +528,13 @@ class BattleshipsGameTest {
       val result = game.fire(at(A, 1))
 
       assertThat(result.type).isEqualTo(MISSED)
+    }
+
+    @Test
+    fun `firing result is a hit, when opponent has a ship at coordinate fired`() {
+      val result = game.fire(at(A, 2))
+
+      assertThat(result.type).isEqualTo(HIT)
     }
   }
 

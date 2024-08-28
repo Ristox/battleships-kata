@@ -6,5 +6,6 @@ data class FiringResult(
 )
 
 enum class ResultType {
-  MISSED
+  MISSED,
+  HIT
 }
