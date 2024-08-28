@@ -517,7 +517,7 @@ class BattleshipsGameTest {
     fun `firing result is a miss, when opponent has no ship at coordinate fired`() {
       val result = game.fire(at(A,1))
 
-      result!!.type.let {
+      result.type.let {
         assertThat(it).isEqualTo(MISSED)
       }
     }

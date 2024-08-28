@@ -1,5 +1,6 @@
 package ee.rsx.kata.codurance.battleships
 
+import ee.rsx.kata.codurance.battleships.ResultType.MISSED
 import ee.rsx.kata.codurance.battleships.player.GamePlayer
 
 class BattleshipsGame : Battleships {
@@ -41,10 +42,10 @@ class BattleshipsGame : Battleships {
 
   override fun currentPlayer() = currentPlayer
 
-  override fun fire(at: Coordinates): FiringResult? {
+  override fun fire(at: Coordinates): FiringResult {
     checkNotNull(currentPlayer) {
       "cannot fire, game has not been started yet"
     }
-    return null
+    return FiringResult(at, MISSED)
   }
 }
