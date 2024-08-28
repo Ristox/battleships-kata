@@ -335,7 +335,7 @@ class BattleshipsGameTest {
   fun `placing more than one MOTHERSHIP fails (only 1 is allowed)`() {
     with(game.addPlayer("John")) {
       place(MOTHERSHIP, from(D, 8), to(G, 8))
-      place(DESTROYER, from(A,3), to(A,5))
+      place(DESTROYER, from(A, 3), to(A, 5))
 
       val test: () -> Unit = { place(MOTHERSHIP, from(C, 5), to(F, 5)) }
 
@@ -349,7 +349,7 @@ class BattleshipsGameTest {
   fun `placing more than two DESTROYERS fails (only 2 is allowed)`() {
     with(game.addPlayer("John")) {
       place(DESTROYER, from(D, 8), to(F, 8))
-      place(DESTROYER, from(A,3), to(A,5))
+      place(DESTROYER, from(A, 3), to(A, 5))
 
       val test: () -> Unit = { place(DESTROYER, from(C, 5), to(E, 5)) }
 
@@ -363,7 +363,7 @@ class BattleshipsGameTest {
   fun `placing more than three WARSHIPS fails (only 3 is allowed)`() {
     with(game.addPlayer("John")) {
       place(WARSHIP, from(D, 8), to(E, 8))
-      place(WARSHIP, from(A,3), to(A,4))
+      place(WARSHIP, from(A, 3), to(A, 4))
       place(WARSHIP, from(C, 5), to(D, 5))
 
       val test: () -> Unit = { place(WARSHIP, from(J, 7), to(J, 8)) }
@@ -394,7 +394,7 @@ class BattleshipsGameTest {
   fun `current board contains all the placed ships in expected locations`() {
     with(game.addPlayer("John")) {
       place(MOTHERSHIP, from(D, 8), to(G, 8))
-      place(DESTROYER, from(C, 5),to(C, 7))
+      place(DESTROYER, from(C, 5), to(C, 7))
       place(DESTROYER, from(A, 2), to(A, 4))
       place(WARSHIP, from(E, 2), to(F, 2))
       place(WARSHIP, from(E, 5), to(E, 6))
@@ -477,13 +477,12 @@ class BattleshipsGameTest {
 
   @Test
   fun `when game has not yet been started, player cannot fire`() {
-    val test: () -> Unit = { game.fire(at(A,1)) }
+    val test: () -> Unit = { game.fire(at(A, 1)) }
 
     assertThrows<IllegalStateException>(test).let {
       assertThat(it.message).isEqualTo("cannot fire, game has not been started yet")
     }
   }
-
 
   @Nested
   @DisplayName("When game has been started")
@@ -510,16 +509,14 @@ class BattleshipsGameTest {
 
     @Test
     fun `player can fire`() {
-      assertDoesNotThrow { game.fire(at(A,1)) }
+      assertDoesNotThrow { game.fire(at(A, 1)) }
     }
 
     @Test
     fun `firing result is a miss, when opponent has no ship at coordinate fired`() {
-      val result = game.fire(at(A,1))
+      val result = game.fire(at(A, 1))
 
-      result.type.let {
-        assertThat(it).isEqualTo(MISSED)
-      }
+      assertThat(result.type).isEqualTo(MISSED)
     }
   }
 
