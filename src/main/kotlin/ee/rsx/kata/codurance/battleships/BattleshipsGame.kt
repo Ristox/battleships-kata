@@ -37,6 +37,6 @@ class BattleshipsGame : Battleships {
   }
 
   override fun currentPlayer(): Player? {
-    TODO("Not yet implemented")
+    return null
   }
 }
