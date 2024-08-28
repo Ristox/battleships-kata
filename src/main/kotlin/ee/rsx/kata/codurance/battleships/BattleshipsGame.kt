@@ -9,7 +9,6 @@ class BattleshipsGame : Battleships {
   }
 
   private val players = mutableListOf<GamePlayer>()
-
   private var currentPlayer: Player? = null
 
   override fun addPlayer(name: String): Player {
@@ -41,4 +40,8 @@ class BattleshipsGame : Battleships {
   }
 
   override fun currentPlayer() = currentPlayer
+
+  override fun fire(at: Coordinates) {
+    TODO("Not yet implemented")
+  }
 }

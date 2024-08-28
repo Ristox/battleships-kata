@@ -461,20 +461,6 @@ class BattleshipsGameTest {
   }
 
   @Test
-  fun `player cannot fire, when game has not been started yet`() {
-    val john = game.addPlayer("John")
-    john.placeDefaultShips()
-    val james = game.addPlayer("James")
-    james.placeDefaultShips()
-
-    val test: () -> Unit = { john.fireAtOpponent(at(A,1)) }
-
-    assertThrows<IllegalStateException>(test).let {
-      assertThat(it.message).isEqualTo("cannot fire, game has not been started yet")
-    }
-  }
-
-  @Test
   fun `when game has not been started, there is no current player`() {
     val john = game.addPlayer("John")
     john.placeDefaultShips()
@@ -497,6 +483,20 @@ class BattleshipsGameTest {
     val currentPlayer = game.currentPlayer()
 
     assertThat(currentPlayer).isEqualTo(john)
+  }
+
+  @Test
+  fun `when game has not yet been started, player cannot fire`() {
+    val john = game.addPlayer("John")
+    john.placeDefaultShips()
+    val james = game.addPlayer("James")
+    james.placeDefaultShips()
+
+    val test: () -> Unit = { game.fire(at(A,1)) }
+
+    assertThrows<IllegalStateException>(test).let {
+      assertThat(it.message).isEqualTo("cannot fire, game has not been started yet")
+    }
   }
 
   private fun Player.placeDefaultShips() {

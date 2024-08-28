@@ -6,4 +6,5 @@ interface Battleships {
   fun start()
   fun print()
   fun currentPlayer(): Player?
+  fun fire(at: Coordinates)
 }

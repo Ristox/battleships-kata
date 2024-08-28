@@ -8,5 +8,4 @@ interface Player {
   fun hasPlacedAllShips(): Boolean
   fun shipTypeAt(row: Row, column: Column): ShipType?
   fun shipTypeAt(row: Row, column: Int): ShipType?
-  fun fireAtOpponent(coordinates: Coordinates): FiringResult
 }

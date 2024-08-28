@@ -2,7 +2,6 @@ package ee.rsx.kata.codurance.battleships.player
 
 import ee.rsx.kata.codurance.battleships.Column
 import ee.rsx.kata.codurance.battleships.Coordinates
-import ee.rsx.kata.codurance.battleships.FiringResult
 import ee.rsx.kata.codurance.battleships.Player
 import ee.rsx.kata.codurance.battleships.Row
 import ee.rsx.kata.codurance.battleships.ShipType
@@ -23,9 +22,4 @@ class GamePlayer(override val name: String) : Player {
 
   override fun shipTypeAt(row: Row, column: Int): ShipType? =
     shipTypeAt(row, Column.entries.first { it.index == column })
-
-  override fun fireAtOpponent(coordinates: Coordinates): FiringResult {
-    // TODO restructure (player knows nothing about game, but for firing it should)
-    throw IllegalStateException("cannot fire, game has not been started yet")
-  }
 }
