@@ -4,6 +4,7 @@ import ee.rsx.kata.codurance.battleships.Column
 import ee.rsx.kata.codurance.battleships.Coordinates
 import ee.rsx.kata.codurance.battleships.Player
 import ee.rsx.kata.codurance.battleships.Row
+import ee.rsx.kata.codurance.battleships.Ship
 import ee.rsx.kata.codurance.battleships.ShipType
 import ee.rsx.kata.codurance.battleships.board.GameBoard
 
@@ -11,6 +12,7 @@ data class GamePlayer(override val name: String) : Player {
 
   override val board = GameBoard()
 
+  override val destroyedOpponentShips = mutableSetOf<Ship>()
   override val shotsMissed = mutableSetOf<Coordinates>()
   override val shotsHit = mutableSetOf<Coordinates>()
 

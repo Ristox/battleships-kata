@@ -3,8 +3,10 @@ package ee.rsx.kata.codurance.battleships
 interface Player {
   val board: Board
   val name: String
-  val shotsMissed: MutableSet<Coordinates>
+
+  val destroyedOpponentShips: MutableSet<Ship>
   val shotsHit: MutableSet<Coordinates>
+  val shotsMissed: MutableSet<Coordinates>
 
   fun place(shipType: ShipType, start: Coordinates, end: Coordinates): Board
   fun hasPlacedAllShips(): Boolean

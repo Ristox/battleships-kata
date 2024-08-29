@@ -590,6 +590,19 @@ class BattleshipsGameTest {
 
       assertThat(game.currentPlayer()).isEqualTo(initialPlayer)
     }
+
+    @Test
+    fun `when firing result is a ship sunk, result shows the sunken ship`() {
+      game.fire(at(D,8))
+      game.fire(at(E, 8))
+      game.fire(at(F, 8))
+
+      val result = game.fire(at(G, 8))
+
+      assertThat(result.type).isEqualTo(ResultType.SUNK)
+      assertThat(result.currentPlayer.destroyedOpponentShips)
+        .containsExactly(MOTHERSHIP.placed(from(D, 8), to(G, 8)))
+    }
   }
 
   private fun Player.placeDefaultShips() {

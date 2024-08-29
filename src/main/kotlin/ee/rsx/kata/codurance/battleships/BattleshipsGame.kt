@@ -2,6 +2,7 @@ package ee.rsx.kata.codurance.battleships
 
 import ee.rsx.kata.codurance.battleships.ResultType.HIT
 import ee.rsx.kata.codurance.battleships.ResultType.MISSED
+import ee.rsx.kata.codurance.battleships.ResultType.SUNK
 import ee.rsx.kata.codurance.battleships.player.GamePlayer
 
 class BattleshipsGame : Battleships {
@@ -60,6 +61,9 @@ class BattleshipsGame : Battleships {
       }
       HIT -> {
         player.hit(target)
+      }
+      SUNK -> {
+
       }
     }
     return FiringResult(target, result, player)
