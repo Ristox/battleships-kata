@@ -60,7 +60,7 @@ class BattleshipsGame : Battleships {
     if (result == MISSED) {
       addMissedShotForCurrentPlayer(target)
     }
-    return FiringResult(target, result, getShotsMissedForCurrentPlayer())
+    return FiringResult(target, result, getShotsMissedForCurrentPlayer(), emptySet())
   }
 
   private fun addMissedShotForCurrentPlayer(target: Coordinates) {

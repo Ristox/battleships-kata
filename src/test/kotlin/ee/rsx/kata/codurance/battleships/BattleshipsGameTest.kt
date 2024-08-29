@@ -547,6 +547,16 @@ class BattleshipsGameTest {
       assertThat(missedShots)
         .containsOnly(target)
     }
+
+    @Test
+    fun `firing result shows hit shots, containing the target that was hit`() {
+      val target = at(A, 1)
+      val result = game.fire(at = target)
+
+      val hits = result.hits
+
+      assertThat(hits).containsOnly(target)
+    }
   }
 
   private fun Player.placeDefaultShips() {
