@@ -625,6 +625,18 @@ class BattleshipsGameTest {
       }
     }
 
+    @Test
+    fun `when sinking 4 ships, player still remains as current player`() {
+      val initialPlayer = game.currentPlayer()
+      sinkShip(from(E, 5), to(E, 6))  // WARSHIP
+      sinkShip(from(A, 2), to(A, 4))  // DESTROYER
+      sinkShip(from(B, 10), to(C, 10))  // WARSHIP
+
+      game.fire(at(J, 2)) // GUNSHIP
+
+      assertThat(game.currentPlayer()).isEqualTo(initialPlayer)
+    }
+
     private fun sinkShip(start: Coordinates, end: Coordinates) {
       if (start.row == end.row) {
         Column.entries
