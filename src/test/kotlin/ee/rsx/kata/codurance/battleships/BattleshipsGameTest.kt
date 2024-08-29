@@ -2,6 +2,7 @@ package ee.rsx.kata.codurance.battleships
 
 import ee.rsx.kata.codurance.battleships.ResultType.HIT
 import ee.rsx.kata.codurance.battleships.ResultType.MISSED
+import ee.rsx.kata.codurance.battleships.ResultType.SUNK
 import ee.rsx.kata.codurance.battleships.Row.A
 import ee.rsx.kata.codurance.battleships.Row.B
 import ee.rsx.kata.codurance.battleships.Row.C
@@ -599,9 +600,11 @@ class BattleshipsGameTest {
 
       val result = game.fire(at(G, 8))
 
-      assertThat(result.type).isEqualTo(ResultType.SUNK)
-      assertThat(result.currentPlayer.destroyedOpponentShips)
-        .containsExactly(MOTHERSHIP.placed(from(D, 8), to(G, 8)))
+      with(result) {
+        assertThat(type).isEqualTo(SUNK)
+        assertThat(currentPlayer.destroyedOpponentShips)
+          .containsExactly(MOTHERSHIP.placed(from(D, 8), to(G, 8)))
+      }
     }
   }
 

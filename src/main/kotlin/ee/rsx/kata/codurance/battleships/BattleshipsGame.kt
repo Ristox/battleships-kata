@@ -50,20 +50,27 @@ class BattleshipsGame : Battleships {
     val player = currentPlayer
       ?: throw IllegalStateException("cannot fire, game has not been started yet")
 
-    val shipAtTargetCoordinates = opponent().shipTypeAt(target.row, target.column)
+    val shipAtTarget = opponent().board.shipAt(target.row, target.column)
 
-    val result = shipAtTargetCoordinates?.let { HIT } ?: MISSED
+    val result = shipAtTarget?.let {
+      val shipDestroyed =
+        (player.shotsHit + target).containsAll(it.coveredCoordinates())
+
+      if (shipDestroyed) {
+        player.destroyedOpponentShips.add(it)
+        SUNK
+      }
+      else HIT
+    }
+      ?: MISSED
 
     when (result) {
       MISSED -> {
         player.missed(target)
         currentPlayer = opponent()
       }
-      HIT -> {
+      HIT, SUNK -> {
         player.hit(target)
-      }
-      SUNK -> {
-
       }
     }
     return FiringResult(target, result, player)
