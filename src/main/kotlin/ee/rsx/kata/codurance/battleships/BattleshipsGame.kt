@@ -53,11 +53,14 @@ class BattleshipsGame : Battleships {
 
     val result = shipAtTargetCoordinates?.let { HIT } ?: MISSED
 
-    if (result == MISSED) {
-      player.missed(target)
-      currentPlayer = opponent()
-    } else if (result == HIT) {
-      player.hit(target)
+    when (result) {
+      MISSED -> {
+        player.missed(target)
+        currentPlayer = opponent()
+      }
+      HIT -> {
+        player.hit(target)
+      }
     }
     return FiringResult(target, result, player)
   }

@@ -499,8 +499,8 @@ class BattleshipsGameTest {
   @Nested
   @DisplayName("When game has been started")
   inner class WhenGameHasBeenStarted {
-    private lateinit var john: Player
 
+    private lateinit var john: Player
     private lateinit var james: Player
 
     @BeforeEach
