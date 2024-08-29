@@ -3,6 +3,7 @@ package ee.rsx.kata.codurance.battleships
 import ee.rsx.kata.codurance.battleships.ResultType.HIT
 import ee.rsx.kata.codurance.battleships.ResultType.MISSED
 import ee.rsx.kata.codurance.battleships.player.GamePlayer
+import kotlin.collections.getOrPut
 
 class BattleshipsGame : Battleships {
   companion object {
@@ -12,6 +13,8 @@ class BattleshipsGame : Battleships {
 
   private val players = mutableListOf<GamePlayer>()
   private var currentPlayer: Player? = null
+
+  private val shotsMissedByPlayer: MutableMap<String, MutableSet<Coordinates>> = mutableMapOf()
 
   override fun addPlayer(name: String): Player {
     check(players.size < PLAYERS_COUNT) { "Maximum of $PLAYERS_COUNT players can be added" }
@@ -45,15 +48,27 @@ class BattleshipsGame : Battleships {
 
   private fun opponent() = players.filterNot { it == currentPlayer }.first()
 
-  override fun fire(at: Coordinates): FiringResult {
+  override fun fire(target: Coordinates): FiringResult {
     checkNotNull(currentPlayer) {
       "cannot fire, game has not been started yet"
     }
 
-    val shipAtFiredCoordinates = opponent().shipTypeAt(at.row, at.column)
+    val shipAtTargetCoordinates = opponent().shipTypeAt(target.row, target.column)
 
-    val result = shipAtFiredCoordinates?.let { HIT } ?: MISSED
+    val result = shipAtTargetCoordinates?.let { HIT } ?: MISSED
 
-    return FiringResult(at, result)
+    if (result == MISSED) {
+      addMissedShotForCurrentPlayer(target)
+    }
+    return FiringResult(target, result, getShotsMissedForCurrentPlayer())
   }
+
+  private fun addMissedShotForCurrentPlayer(target: Coordinates) {
+    val name = currentPlayer!!.name
+    val shotsMissed = shotsMissedByPlayer.getOrPut(name) { mutableSetOf() }
+    shotsMissed.add(target)
+  }
+
+  private fun getShotsMissedForCurrentPlayer(): Set<Coordinates> =
+    shotsMissedByPlayer.getOrDefault(currentPlayer!!.name, emptySet())
 }
