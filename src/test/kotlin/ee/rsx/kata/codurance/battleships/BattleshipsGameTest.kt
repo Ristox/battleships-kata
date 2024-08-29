@@ -17,6 +17,7 @@ import ee.rsx.kata.codurance.battleships.ShipType.GUNSHIP
 import ee.rsx.kata.codurance.battleships.ShipType.MOTHERSHIP
 import ee.rsx.kata.codurance.battleships.ShipType.WARSHIP
 import ee.rsx.kata.codurance.battleships.ship.GameShip
+import org.assertj.core.api.Assertions.`as`
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -578,6 +579,16 @@ class BattleshipsGameTest {
       game.fire(at = missedTarget)
 
       assertThat(game.currentPlayer()).isEqualTo(john)
+    }
+
+    @Test
+    fun `when firing result is a hit, turn does not change (same player can fire again)`() {
+      val initialPlayer = game.currentPlayer()
+      val hitTarget = at(A, 2)
+
+      game.fire(at = hitTarget)
+
+      assertThat(game.currentPlayer()).isEqualTo(initialPlayer)
     }
   }
 
