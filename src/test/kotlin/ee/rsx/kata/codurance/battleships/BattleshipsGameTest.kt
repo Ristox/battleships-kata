@@ -539,23 +539,34 @@ class BattleshipsGameTest {
 
     @Test
     fun `firing result shows missed shots, containing the target that was missed`() {
-      val target = at(A, 1)
-      val result = game.fire(at = target)
+      val missedTarget = at(A, 1)
+      val result = game.fire(at = missedTarget)
 
       val missedShots = result.currentPlayer.misses
 
       assertThat(missedShots)
-        .containsOnly(target)
+        .containsOnly(missedTarget)
     }
 
     @Test
     fun `firing result shows hit shots, containing the target that was hit`() {
-      val target = at(A, 2)
-      val result = game.fire(at = target)
+      val hitTarget = at(A, 2)
+      val result = game.fire(at = hitTarget)
 
       val hits = result.currentPlayer.hits
 
-      assertThat(hits).containsOnly(target)
+      assertThat(hits).containsOnly(hitTarget)
+    }
+
+    @Test
+    fun `when firing result is a miss, turn goes from john to james`() {
+      assertThat(game.currentPlayer()).isEqualTo(john)
+      val missedTarget = at(A, 1)
+
+      game.fire(at = missedTarget)
+
+      assertThat(game.currentPlayer())
+        .isEqualTo(james)
     }
   }
 

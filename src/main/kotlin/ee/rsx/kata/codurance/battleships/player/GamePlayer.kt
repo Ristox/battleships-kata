@@ -7,7 +7,7 @@ import ee.rsx.kata.codurance.battleships.Row
 import ee.rsx.kata.codurance.battleships.ShipType
 import ee.rsx.kata.codurance.battleships.board.GameBoard
 
-class GamePlayer(override val name: String) : Player {
+data class GamePlayer(override val name: String) : Player {
 
   override val board = GameBoard()
 
