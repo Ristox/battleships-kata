@@ -11,8 +11,8 @@ data class GamePlayer(override val name: String) : Player {
 
   override val board = GameBoard()
 
-  override val misses = mutableSetOf<Coordinates>()
-  override val hits = mutableSetOf<Coordinates>()
+  override val shotsMissed = mutableSetOf<Coordinates>()
+  override val shotsHit = mutableSetOf<Coordinates>()
 
   override fun place(shipType: ShipType, start: Coordinates, end: Coordinates) =
     board.apply { place(shipType, start, end) }
@@ -25,4 +25,12 @@ data class GamePlayer(override val name: String) : Player {
 
   override fun shipTypeAt(row: Row, column: Int): ShipType? =
     shipTypeAt(row, Column.entries.first { it.index == column })
+
+  override fun missed(targetAt: Coordinates) {
+    shotsMissed.add(targetAt)
+  }
+
+  override fun hit(targetAt: Coordinates) {
+    shotsHit.add(targetAt)
+  }
 }

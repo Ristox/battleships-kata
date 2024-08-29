@@ -542,7 +542,7 @@ class BattleshipsGameTest {
       val missedTarget = at(A, 1)
       val result = game.fire(at = missedTarget)
 
-      val missedShots = result.currentPlayer.misses
+      val missedShots = result.currentPlayer.shotsMissed
 
       assertThat(missedShots)
         .containsOnly(missedTarget)
@@ -553,7 +553,7 @@ class BattleshipsGameTest {
       val hitTarget = at(A, 2)
       val result = game.fire(at = hitTarget)
 
-      val hits = result.currentPlayer.hits
+      val hits = result.currentPlayer.shotsHit
 
       assertThat(hits).containsOnly(hitTarget)
     }
