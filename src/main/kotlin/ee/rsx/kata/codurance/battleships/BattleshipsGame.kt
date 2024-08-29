@@ -3,7 +3,6 @@ package ee.rsx.kata.codurance.battleships
 import ee.rsx.kata.codurance.battleships.ResultType.HIT
 import ee.rsx.kata.codurance.battleships.ResultType.MISSED
 import ee.rsx.kata.codurance.battleships.player.GamePlayer
-import kotlin.collections.getOrPut
 
 class BattleshipsGame : Battleships {
   companion object {
@@ -13,9 +12,6 @@ class BattleshipsGame : Battleships {
 
   private val players = mutableListOf<GamePlayer>()
   private var currentPlayer: Player? = null
-
-  private val shotsMissedByPlayer: MutableMap<String, MutableSet<Coordinates>> = mutableMapOf()
-  private val hitsByPlayer: MutableMap<String, MutableSet<Coordinates>> = mutableMapOf()
 
   override fun addPlayer(name: String): Player {
     check(players.size < PLAYERS_COUNT) { "Maximum of $PLAYERS_COUNT players can be added" }
@@ -59,30 +55,11 @@ class BattleshipsGame : Battleships {
     val result = shipAtTargetCoordinates?.let { HIT } ?: MISSED
 
     if (result == MISSED) {
-      addMissedShotForCurrentPlayer(target)
+      currentPlayer!!.misses.add(target)
     } else if (result == HIT) {
-      addHitForCurrentPlayer(target)
+      currentPlayer!!.hits.add(target)
     }
-    return FiringResult(target, result, currentPlayer!!, getShotsMissedForCurrentPlayer(), getShotsHitForCurrentPlayer())
+    return FiringResult(target, result, currentPlayer!!)
   }
 
-  private fun addMissedShotForCurrentPlayer(target: Coordinates) {
-    val name = currentPlayer!!.name
-    currentPlayer!!.misses.add(target)
-    val shotsMissed = shotsMissedByPlayer.getOrPut(name) { mutableSetOf() }
-    shotsMissed.add(target)
-  }
-
-  private fun addHitForCurrentPlayer(target: Coordinates) {
-    val name = currentPlayer!!.name
-    currentPlayer!!.hits.add(target)
-    val hits = hitsByPlayer.getOrPut(name) { mutableSetOf() }
-    hits.add(target)
-  }
-
-  private fun getShotsMissedForCurrentPlayer(): Set<Coordinates> =
-    shotsMissedByPlayer.getOrDefault(currentPlayer!!.name, emptySet())
-
-  private fun getShotsHitForCurrentPlayer(): Set<Coordinates> =
-    hitsByPlayer.getOrDefault(currentPlayer!!.name, emptySet())
 }
