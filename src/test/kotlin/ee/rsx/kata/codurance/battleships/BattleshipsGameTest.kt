@@ -550,7 +550,7 @@ class BattleshipsGameTest {
 
     @Test
     fun `firing result shows hit shots, containing the target that was hit`() {
-      val target = at(A, 1)
+      val target = at(A, 2)
       val result = game.fire(at = target)
 
       val hits = result.hits

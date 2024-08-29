@@ -15,6 +15,7 @@ class BattleshipsGame : Battleships {
   private var currentPlayer: Player? = null
 
   private val shotsMissedByPlayer: MutableMap<String, MutableSet<Coordinates>> = mutableMapOf()
+  private val hitsByPlayer: MutableMap<String, MutableSet<Coordinates>> = mutableMapOf()
 
   override fun addPlayer(name: String): Player {
     check(players.size < PLAYERS_COUNT) { "Maximum of $PLAYERS_COUNT players can be added" }
@@ -59,8 +60,10 @@ class BattleshipsGame : Battleships {
 
     if (result == MISSED) {
       addMissedShotForCurrentPlayer(target)
+    } else if (result == HIT) {
+      addHitForCurrentPlayer(target)
     }
-    return FiringResult(target, result, getShotsMissedForCurrentPlayer(), emptySet())
+    return FiringResult(target, result, getShotsMissedForCurrentPlayer(), getShotsHitForCurrentPlayer())
   }
 
   private fun addMissedShotForCurrentPlayer(target: Coordinates) {
@@ -69,6 +72,15 @@ class BattleshipsGame : Battleships {
     shotsMissed.add(target)
   }
 
+  private fun addHitForCurrentPlayer(target: Coordinates) {
+    val name = currentPlayer!!.name
+    val hits = hitsByPlayer.getOrPut(name) { mutableSetOf() }
+    hits.add(target)
+  }
+
   private fun getShotsMissedForCurrentPlayer(): Set<Coordinates> =
     shotsMissedByPlayer.getOrDefault(currentPlayer!!.name, emptySet())
+
+  private fun getShotsHitForCurrentPlayer(): Set<Coordinates> =
+    hitsByPlayer.getOrDefault(currentPlayer!!.name, emptySet())
 }
