@@ -18,7 +18,6 @@ import ee.rsx.kata.codurance.battleships.ShipType.GUNSHIP
 import ee.rsx.kata.codurance.battleships.ShipType.MOTHERSHIP
 import ee.rsx.kata.codurance.battleships.ShipType.WARSHIP
 import ee.rsx.kata.codurance.battleships.ship.GameShip
-import org.assertj.core.api.Assertions.`as`
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -594,7 +593,7 @@ class BattleshipsGameTest {
 
     @Test
     fun `when firing result is a ship sunk, result shows the sunken ship`() {
-      game.fire(at(D,8))
+      game.fire(at(D, 8))
       game.fire(at(E, 8))
       game.fire(at(F, 8))
 
@@ -604,6 +603,41 @@ class BattleshipsGameTest {
         assertThat(type).isEqualTo(SUNK)
         assertThat(currentPlayer.destroyedOpponentShips)
           .containsExactly(MOTHERSHIP.placed(from(D, 8), to(G, 8)))
+      }
+    }
+
+    @Test
+    fun `when sinking 4 ships, all ships are shown as destroyed`() {
+      sinkShip(from(E, 5), to(E, 6))  // WARSHIP
+      sinkShip(from(A, 2), to(A, 4))  // DESTROYER
+      sinkShip(from(B, 10), to(C, 10))  // WARSHIP
+
+      val lastFiringResult = game.fire(at(J, 2)) // GUNSHIP
+
+      with(lastFiringResult) {
+        assertThat(currentPlayer.destroyedOpponentShips)
+          .containsExactlyInAnyOrder(
+            WARSHIP.placed(from(E, 5), to(E, 6)),
+            WARSHIP.placed(from(B, 10), to(C, 10)),
+            DESTROYER.placed(from(A, 2), to(A, 4)),
+            GUNSHIP.placed(at(J, 2), at(J, 2))
+          )
+      }
+    }
+
+    private fun sinkShip(start: Coordinates, end: Coordinates) {
+      if (start.row == end.row) {
+        Column.entries
+          .filter { it.index in start.column.index..end.column.index }
+          .forEach {
+            game.fire(at = Coordinates(start.row, it))
+          }
+      } else if (start.column == end.column) {
+        Row.entries
+          .filter { it.index in start.row.index..end.row.index }
+          .forEach {
+            game.fire(at = Coordinates(it, start.column))
+          }
       }
     }
   }
