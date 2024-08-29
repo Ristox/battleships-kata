@@ -75,5 +75,4 @@ class BattleshipsGame : Battleships {
     }
     return FiringResult(target, result, player)
   }
-
 }

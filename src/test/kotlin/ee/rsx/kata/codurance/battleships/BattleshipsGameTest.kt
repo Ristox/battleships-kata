@@ -637,6 +637,68 @@ class BattleshipsGameTest {
       assertThat(game.currentPlayer()).isEqualTo(initialPlayer)
     }
 
+    @Test
+    fun `game shows running status of opponent board (hits, misses, sunken ships)`() {
+      //John's turn
+      sinkShip(from(E, 5), to(E, 6))  // WARSHIP
+      sinkShip(from(A, 2), to(A, 4))  // DESTROYER
+      sinkShip(from(B, 10), to(C, 10))  // WARSHIP
+
+      game.fire(at(J, 2)) // GUNSHIP
+      game.fire(at(J, 4)) // John misses
+
+      // James's turn
+      game.fire(at(A, 1)) // James misses
+
+      // John's turn
+      game.fire(at(J, 6)) // John misses
+
+      // James's turn
+      game.fire(at(A, 7)) // James misses
+
+      // John's turn
+      game.fire(at(J, 8)) // John misses
+
+      // James's turn
+      game.fire(at(A, 6)) // James sinks GUNSHIP
+      sinkShip(at(C, 5), at(C, 7)) // James sinks WARSHIP
+
+      // overview of opponent's (John's) board for James
+      with(game.currentPlayer()!!) {
+        assertThat(shotsMissed)
+          .containsExactlyInAnyOrder(at(A, 1), at(A, 7))
+        assertThat(shotsHit)
+          .containsExactlyInAnyOrder(at(A, 6), at(C, 5), at(C, 6), at(C, 7))
+        assertThat(destroyedOpponentShips)
+          .containsExactlyInAnyOrder(
+            GUNSHIP.placed(at(A, 6), at(A, 6)),
+            DESTROYER.placed(from(C, 5), to(C, 7))
+          )
+      }
+
+      game.fire(at(G, 9)) // James misses
+
+      // overview of opponent's (James's) board for John
+      with(game.currentPlayer()!!) {
+        assertThat(shotsMissed)
+          .containsExactlyInAnyOrder(at(J, 4), at(J, 6), at(J, 8))
+        assertThat(shotsHit)
+          .containsExactlyInAnyOrder(
+            at(E, 5), at(E, 6),
+            at(A, 2), at(A, 3), at(A, 4),
+            at(B, 10), at(C, 10),
+            at(J, 2)
+          )
+        assertThat(destroyedOpponentShips)
+          .containsExactly(
+            WARSHIP.placed(from(E, 5), to(E, 6)),
+            DESTROYER.placed(from(A, 2), to(A, 4)),
+            WARSHIP.placed(from(B, 10), to(C, 10)),
+            GUNSHIP.placed(at(J, 2), at(J, 2))
+          )
+      }
+    }
+
     private fun sinkShip(start: Coordinates, end: Coordinates) {
       if (start.row == end.row) {
         Column.entries
