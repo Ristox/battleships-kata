@@ -568,6 +568,17 @@ class BattleshipsGameTest {
       assertThat(game.currentPlayer())
         .isEqualTo(james)
     }
+
+    @Test
+    fun `when both john and james fire a miss, turn goes back to john`() {
+      assertThat(game.currentPlayer()).isEqualTo(john)
+      val missedTarget = at(A, 1)
+
+      game.fire(at = missedTarget)
+      game.fire(at = missedTarget)
+
+      assertThat(game.currentPlayer()).isEqualTo(john)
+    }
   }
 
   private fun Player.placeDefaultShips() {
