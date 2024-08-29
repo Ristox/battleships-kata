@@ -63,17 +63,19 @@ class BattleshipsGame : Battleships {
     } else if (result == HIT) {
       addHitForCurrentPlayer(target)
     }
-    return FiringResult(target, result, getShotsMissedForCurrentPlayer(), getShotsHitForCurrentPlayer())
+    return FiringResult(target, result, currentPlayer!!, getShotsMissedForCurrentPlayer(), getShotsHitForCurrentPlayer())
   }
 
   private fun addMissedShotForCurrentPlayer(target: Coordinates) {
     val name = currentPlayer!!.name
+    currentPlayer!!.misses.add(target)
     val shotsMissed = shotsMissedByPlayer.getOrPut(name) { mutableSetOf() }
     shotsMissed.add(target)
   }
 
   private fun addHitForCurrentPlayer(target: Coordinates) {
     val name = currentPlayer!!.name
+    currentPlayer!!.hits.add(target)
     val hits = hitsByPlayer.getOrPut(name) { mutableSetOf() }
     hits.add(target)
   }
