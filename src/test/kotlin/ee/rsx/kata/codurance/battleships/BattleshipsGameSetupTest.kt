@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
+import kotlin.test.assertFailsWith
 
 @DisplayName("When setting up the game")
 class BattleshipsGameSetupTest {
@@ -44,9 +44,10 @@ class BattleshipsGameSetupTest {
 
     val test: () -> Unit = { game.addPlayer("Bob") }
 
-    assertThrows<IllegalStateException>(test).let {
-      assertThat(it.message).isEqualTo("Maximum of 2 players can be added")
-    }
+    assertFailsWith<IllegalStateException>(
+      "Maximum of 2 players can be added",
+      test
+    )
   }
 
   @Test
@@ -55,9 +56,10 @@ class BattleshipsGameSetupTest {
 
     val test: () -> Unit = { game.start() }
 
-    assertThrows<IllegalStateException>(test).let {
-      assertThat(it.message).isEqualTo("2 players must be added before starting the game")
-    }
+    assertFailsWith<IllegalStateException>(
+      "2 players must be added before starting the game",
+      test
+    )
   }
 
   @Test
@@ -66,9 +68,10 @@ class BattleshipsGameSetupTest {
 
     val test: () -> Unit = { game.addPlayer("James") }
 
-    assertThrows<IllegalArgumentException>(test).let {
-      assertThat(it.message).isEqualTo("Player with the same name (James) already exists")
-    }
+    assertFailsWith<IllegalArgumentException>(
+      "Player with the same name (James) already exists",
+      test
+    )
   }
 
   @Test
@@ -78,9 +81,10 @@ class BattleshipsGameSetupTest {
 
     val test: () -> Unit = { game.start() }
 
-    assertThrows<IllegalStateException>(test).let {
-      assertThat(it.message).isEqualTo("Each player must place their ships before starting the game")
-    }
+    assertFailsWith<IllegalStateException>(
+      "Each player must place their ships before starting the game",
+      test
+    )
   }
 
   @Test
@@ -143,9 +147,10 @@ class BattleshipsGameSetupTest {
 
       val test: () -> Unit = { place(MOTHERSHIP, from(E, 5), to(G, 6)) }
 
-      assertThrows<IllegalArgumentException>(test).let {
-        assertThat(it.message).isEqualTo("Ship must be placed horizontally or vertically")
-      }
+      assertFailsWith<IllegalArgumentException>(
+        "Ship must be placed horizontally or vertically",
+        test
+      )
     }
   }
 
@@ -155,9 +160,10 @@ class BattleshipsGameSetupTest {
 
       val test: () -> Unit = { place(DESTROYER, from(E, 5), to(E, 6)) }
 
-      assertThrows<IllegalArgumentException>(test).let {
-        assertThat(it.message).isEqualTo("Given coordinates length (2) is less than ship size (3)")
-      }
+      assertFailsWith<IllegalArgumentException>(
+        "Given coordinates length (2) is less than ship size (3)",
+        test
+      )
     }
   }
 
@@ -167,9 +173,10 @@ class BattleshipsGameSetupTest {
 
       val test: () -> Unit = { place(DESTROYER, from(E, 10), to(F, 10)) }
 
-      assertThrows<IllegalArgumentException>(test).let {
-        assertThat(it.message).isEqualTo("Given coordinates length (2) is less than ship size (3)")
-      }
+      assertFailsWith<IllegalArgumentException>(
+        "Given coordinates length (2) is less than ship size (3)",
+        test
+      )
     }
   }
 
@@ -179,9 +186,10 @@ class BattleshipsGameSetupTest {
 
       val test: () -> Unit = { place(DESTROYER, from(E, 5), to(E, 8)) }
 
-      assertThrows<IllegalArgumentException>(test).let {
-        assertThat(it.message).isEqualTo("Given coordinates length (4) is larger than ship size (3)")
-      }
+      assertFailsWith<IllegalArgumentException>(
+        "Given coordinates length (4) is larger than ship size (3)",
+        test
+      )
     }
   }
 
@@ -191,9 +199,10 @@ class BattleshipsGameSetupTest {
 
       val test: () -> Unit = { place(MOTHERSHIP, from(B, 1), to(B, 5)) }
 
-      assertThrows<IllegalArgumentException>(test).let {
-        assertThat(it.message).isEqualTo("Given coordinates length (5) is larger than ship size (4)")
-      }
+      assertFailsWith<IllegalArgumentException>(
+        "Given coordinates length (5) is larger than ship size (4)",
+        test
+      )
     }
   }
 
@@ -226,9 +235,10 @@ class BattleshipsGameSetupTest {
         place(DESTROYER, from(F, 3), to(F, 5))
       }
 
-      assertThrows<IllegalStateException>(test).let {
-        assertThat(it.message).isEqualTo("Ship cannot be placed, since it would overlap with MOTHERSHIP at: [(F,4)]")
-      }
+      assertFailsWith<IllegalStateException>(
+        "Ship cannot be placed, since it would overlap with MOTHERSHIP at: [(F,4)]",
+        test
+      )
     }
   }
 
@@ -241,9 +251,10 @@ class BattleshipsGameSetupTest {
         place(DESTROYER, from(H, 3), to(H, 5))
       }
 
-      assertThrows<IllegalStateException>(test).let {
-        assertThat(it.message).isEqualTo("Ship cannot be placed, since it would overlap with DESTROYER at: [(H,3), (H,4)]")
-      }
+      assertFailsWith<IllegalStateException>(
+        "Ship cannot be placed, since it would overlap with DESTROYER at: [(H,3), (H,4)]",
+        test
+      )
     }
   }
 
@@ -256,12 +267,10 @@ class BattleshipsGameSetupTest {
         place(DESTROYER, from(I, 4), to(I, 6))
       }
 
-      assertThrows<IllegalStateException>(test).let {
-        assertThat(it.message)
-          .isEqualTo(
-            "Ship cannot be placed, since it would be adjacent to another DESTROYER at: [(H,2), (H,3), (H,4)]"
-          )
-      }
+      assertFailsWith<IllegalStateException>(
+        "Ship cannot be placed, since it would be adjacent to another DESTROYER at: [(H,2), (H,3), (H,4)]",
+        test
+      )
     }
   }
 
@@ -274,12 +283,10 @@ class BattleshipsGameSetupTest {
         place(DESTROYER, from(E, 2), to(E, 4))
       }
 
-      assertThrows<IllegalStateException>(test).let {
-        assertThat(it.message)
-          .isEqualTo(
-            "Ship cannot be placed, since it would be adjacent to another MOTHERSHIP at: [(A,2), (B,2), (C,2), (D,2)]"
-          )
-      }
+      assertFailsWith<IllegalStateException>(
+        "Ship cannot be placed, since it would be adjacent to another MOTHERSHIP at: [(A,2), (B,2), (C,2), (D,2)]",
+        test
+      )
     }
   }
 
@@ -346,9 +353,10 @@ class BattleshipsGameSetupTest {
 
       val test: () -> Unit = { place(MOTHERSHIP, from(C, 5), to(F, 5)) }
 
-      assertThrows<IllegalStateException>(test).let {
-        assertThat(it.message).isEqualTo("Only 1 MOTHERSHIP can be placed")
-      }
+      assertFailsWith<IllegalStateException>(
+        "Only 1 MOTHERSHIP can be placed",
+        test
+      )
     }
   }
 
@@ -360,9 +368,10 @@ class BattleshipsGameSetupTest {
 
       val test: () -> Unit = { place(DESTROYER, from(C, 5), to(E, 5)) }
 
-      assertThrows<IllegalStateException>(test).let {
-        assertThat(it.message).isEqualTo("Only 2 DESTROYER-s can be placed")
-      }
+      assertFailsWith<IllegalStateException>(
+        "Only 2 DESTROYER-s can be placed",
+        test
+      )
     }
   }
 
@@ -375,9 +384,10 @@ class BattleshipsGameSetupTest {
 
       val test: () -> Unit = { place(WARSHIP, from(J, 7), to(J, 8)) }
 
-      assertThrows<IllegalStateException>(test).let {
-        assertThat(it.message).isEqualTo("Only 3 WARSHIP-s can be placed")
-      }
+      assertFailsWith<IllegalStateException>(
+        "Only 3 WARSHIP-s can be placed",
+        test
+      )
     }
   }
 
@@ -391,9 +401,10 @@ class BattleshipsGameSetupTest {
 
       val test: () -> Unit = { placeGunshipAt(J, 9) }
 
-      assertThrows<IllegalStateException>(test).let {
-        assertThat(it.message).isEqualTo("Only 4 GUNSHIP-s can be placed")
-      }
+      assertFailsWith<IllegalStateException>(
+        "Only 4 GUNSHIP-s can be placed",
+        test
+      )
     }
   }
 
@@ -454,18 +465,20 @@ class BattleshipsGameSetupTest {
 
     val test = { game.start() }
 
-    assertThrows<IllegalStateException>(test).let {
-      assertThat(it.message).isEqualTo("Each player must place their ships before starting the game")
-    }
+    assertFailsWith<IllegalStateException>(
+      "Each player must place their ships before starting the game",
+      test
+    )
   }
 
   @Test
   fun `when game has not yet been started, player cannot fire`() {
     val test: () -> Unit = { game.fire(at(A, 1)) }
 
-    assertThrows<IllegalStateException>(test).let {
-      assertThat(it.message).isEqualTo("cannot fire, game has not been started yet")
-    }
+    assertFailsWith<IllegalStateException>(
+      "cannot fire, game has not been started yet",
+      test
+    )
   }
 
   @Test
