@@ -1,18 +1,16 @@
 package ee.rsx.kata.codurance.battleships
 
 import ee.rsx.kata.codurance.battleships.Row.*
-import ee.rsx.kata.codurance.battleships.ShipType.DESTROYER
-import ee.rsx.kata.codurance.battleships.ShipType.MOTHERSHIP
-import ee.rsx.kata.codurance.battleships.ShipType.WARSHIP
+import ee.rsx.kata.codurance.battleships.ShipType.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
+@DisplayName("When setting up the game")
 class BattleshipsGameSetupTest {
 
   private lateinit var game: Battleships
@@ -470,20 +468,15 @@ class BattleshipsGameSetupTest {
     }
   }
 
-  @Nested
-  @DisplayName("When game has been started")
-  inner class WhenGameHasBeenStarted {
+  @Test
+  fun `when game has not been started, there is no current player`() {
+    val john = game.addPlayer("John")
+    john.placeDefaultShips()
+    val james = game.addPlayer("James")
+    james.placeDefaultShips()
 
-    private lateinit var john: Player
-    private lateinit var james: Player
+    val currentPlayer = game.currentPlayer()
 
-    @BeforeEach
-    fun setup() {
-      john = game.addPlayer("John")
-      james = game.addPlayer("James")
-      john.placeDefaultShips()
-      james.placeDefaultShips()
-      game.start()
-    }
+    assertThat(currentPlayer).isNull()
   }
 }

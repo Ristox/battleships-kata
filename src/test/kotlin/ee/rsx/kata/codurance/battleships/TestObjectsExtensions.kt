@@ -1,18 +1,7 @@
 package ee.rsx.kata.codurance.battleships
 
-import ee.rsx.kata.codurance.battleships.Row.A
-import ee.rsx.kata.codurance.battleships.Row.B
-import ee.rsx.kata.codurance.battleships.Row.C
-import ee.rsx.kata.codurance.battleships.Row.D
-import ee.rsx.kata.codurance.battleships.Row.E
-import ee.rsx.kata.codurance.battleships.Row.F
-import ee.rsx.kata.codurance.battleships.Row.G
-import ee.rsx.kata.codurance.battleships.Row.H
-import ee.rsx.kata.codurance.battleships.Row.J
-import ee.rsx.kata.codurance.battleships.ShipType.DESTROYER
-import ee.rsx.kata.codurance.battleships.ShipType.GUNSHIP
-import ee.rsx.kata.codurance.battleships.ShipType.MOTHERSHIP
-import ee.rsx.kata.codurance.battleships.ShipType.WARSHIP
+import ee.rsx.kata.codurance.battleships.Row.*
+import ee.rsx.kata.codurance.battleships.ShipType.*
 import ee.rsx.kata.codurance.battleships.ship.GameShip
 
 internal fun Player.placeDefaultShips() {

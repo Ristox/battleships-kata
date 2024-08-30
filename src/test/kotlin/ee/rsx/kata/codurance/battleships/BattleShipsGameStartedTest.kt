@@ -1,31 +1,19 @@
 package ee.rsx.kata.codurance.battleships
 
-import ee.rsx.kata.codurance.battleships.ResultType.HIT
-import ee.rsx.kata.codurance.battleships.ResultType.MISSED
-import ee.rsx.kata.codurance.battleships.ResultType.SUNK
-import ee.rsx.kata.codurance.battleships.Row.A
-import ee.rsx.kata.codurance.battleships.Row.B
-import ee.rsx.kata.codurance.battleships.Row.C
-import ee.rsx.kata.codurance.battleships.Row.D
-import ee.rsx.kata.codurance.battleships.Row.E
-import ee.rsx.kata.codurance.battleships.Row.F
-import ee.rsx.kata.codurance.battleships.Row.G
-import ee.rsx.kata.codurance.battleships.Row.J
-import ee.rsx.kata.codurance.battleships.ShipType.DESTROYER
-import ee.rsx.kata.codurance.battleships.ShipType.GUNSHIP
-import ee.rsx.kata.codurance.battleships.ShipType.MOTHERSHIP
-import ee.rsx.kata.codurance.battleships.ShipType.WARSHIP
+import ee.rsx.kata.codurance.battleships.ResultType.*
+import ee.rsx.kata.codurance.battleships.Row.*
+import ee.rsx.kata.codurance.battleships.ShipType.*
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 
+@DisplayName("When game has been started")
 class BattleShipsGameStartedTest {
 
   private lateinit var john: Player
   private lateinit var james: Player
-
-
   private lateinit var game: Battleships
 
   @BeforeEach
@@ -36,18 +24,6 @@ class BattleShipsGameStartedTest {
     john.placeDefaultShips()
     james.placeDefaultShips()
     game.start()
-  }
-
-  @Test
-  fun `when game has not been started, there is no current player`() {
-    val john = game.addPlayer("John")
-    john.placeDefaultShips()
-    val james = game.addPlayer("James")
-    james.placeDefaultShips()
-
-    val currentPlayer = game.currentPlayer()
-
-    assertThat(currentPlayer).isNull()
   }
 
   @Test
@@ -193,58 +169,53 @@ class BattleShipsGameStartedTest {
 
   @Test
   fun `game shows running status of opponent board (hits, misses, sunken ships)`() {
-    //John's turn
-    sinkShip(from(E, 5), to(E, 6))  // WARSHIP
-    sinkShip(from(A, 2), to(A, 4))  // DESTROYER
-    sinkShip(from(B, 10), to(C, 10))  // WARSHIP
+    john.run {
+      sinkShip(from(E, 5), to(E, 6))  // WARSHIP
+      sinkShip(from(A, 2), to(A, 4))  // DESTROYER
+      sinkShip(from(B, 10), to(C, 10))  // WARSHIP
+      shootHit(at(J, 2)) // GUNSHIP
 
-    game.fire(at(J, 2)) // GUNSHIP
-    game.fire(at(J, 4)) // John misses
-
-    // James's turn
-    game.fire(at(A, 1)) // James misses
-
-    // John's turn
-    game.fire(at(J, 6)) // John misses
-
-    // James's turn
-    game.fire(at(A, 7)) // James misses
-
-    // John's turn
-    game.fire(at(J, 8)) // John misses
-
-    // James's turn
-    game.fire(at(A, 6)) // James sinks GUNSHIP
-    sinkShip(at(C, 5), at(C, 7)) // James sinks WARSHIP
-
-    // overview of opponent's (John's) board for James
-    with(game.currentPlayer()!!) {
-      assertThat(shotsMissed)
-        .containsExactlyInAnyOrder(at(A, 1), at(A, 7))
-      assertThat(shotsHit)
-        .containsExactlyInAnyOrder(at(A, 6), at(C, 5), at(C, 6), at(C, 7))
-      assertThat(destroyedOpponentShips)
-        .containsExactlyInAnyOrder(
-          gunship(at(A, 6)),
-          DESTROYER.placed(from(C, 5), to(C, 7))
-        )
+      shootMiss(at(J, 4))
     }
 
-    game.fire(at(G, 9)) // James misses
+    james.run {
+      shootMiss(at(A, 1))
+    }
 
-    // overview of opponent's (James's) board for John
-    with(game.currentPlayer()!!) {
-      assertThat(shotsMissed)
-        .containsExactlyInAnyOrder(at(J, 4), at(J, 6), at(J, 8))
-      assertThat(shotsHit)
-        .containsExactlyInAnyOrder(
+    john.run {
+      shootMiss(at(J, 6))
+    }
+
+    james.run {
+      shootMiss(at(A, 7))
+    }
+
+    john.run {
+      shootMiss(at(J, 8))
+    }
+
+    james.run {
+      shootHit(at(A, 6)) // GUNSHIP
+      sinkShip(at(C, 5), at(C, 7)) // WARSHIP
+
+      assertShotsMissed(at(A, 1), at(A, 7))
+      assertShotsHit(at(A, 6), at(C, 5), at(C, 6), at(C, 7))
+      assertHasDestroyedOpponentShips(
+        gunship(at(A, 6)),
+        DESTROYER.placed(from(C, 5), to(C, 7))
+      )
+      shootMiss(at(G, 9))
+    }
+
+    john.run {
+      assertShotsMissed(at(J, 4), at(J, 6), at(J, 8))
+      assertShotsHit(
           at(E, 5), at(E, 6),
           at(A, 2), at(A, 3), at(A, 4),
           at(B, 10), at(C, 10),
           at(J, 2)
         )
-      assertThat(destroyedOpponentShips)
-        .containsExactly(
+      assertHasDestroyedOpponentShips(
           WARSHIP.placed(from(E, 5), to(E, 6)),
           DESTROYER.placed(from(A, 2), to(A, 4)),
           WARSHIP.placed(from(B, 10), to(C, 10)),
@@ -253,4 +224,19 @@ class BattleShipsGameStartedTest {
     }
   }
 
+  private fun shootHit(at: Coordinates) = game.fire(at)
+
+  private fun shootMiss(at: Coordinates) = game.fire(at)
+
+  private fun Player.assertShotsMissed(vararg coordinates: Coordinates) {
+    assertThat(shotsMissed).containsExactlyInAnyOrder(*coordinates)
+  }
+
+  private fun Player.assertShotsHit(vararg coordinates: Coordinates) {
+    assertThat(shotsHit).containsExactlyInAnyOrder(*coordinates)
+  }
+
+  private fun Player.assertHasDestroyedOpponentShips(vararg ships: Ship) {
+    assertThat(destroyedOpponentShips).containsExactlyInAnyOrder(*ships)
+  }
 }
