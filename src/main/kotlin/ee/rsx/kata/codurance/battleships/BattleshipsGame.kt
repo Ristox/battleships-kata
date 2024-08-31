@@ -31,6 +31,8 @@ class BattleshipsGame : Battleships {
   }
 
   override fun start() {
+    check(!hasEnded()) { "Game has ended" }
+
     check(players.size == PLAYERS_COUNT) { "$PLAYERS_COUNT players must be added before starting the game" }
 
     players.forEach { player ->
