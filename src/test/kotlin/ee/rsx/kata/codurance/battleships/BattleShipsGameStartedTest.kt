@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFailsWith
 
 @DisplayName("When game has been started")
 class BattleShipsGameStartedTest {
@@ -226,25 +227,37 @@ class BattleShipsGameStartedTest {
 
   @Test
   fun `when all ships are sunk, game ends in a win for the current player`() {
-      val endResult = playGameUntilEndWithJamesWinning()
+    val endResult = playGameUntilEndWithJamesWinning()
 
-      assertThat(endResult.type).isEqualTo(WIN)
-      assertThat(game.winner()).isEqualTo(james)
-      assertThat(game.hasEnded()).isTrue()
+    assertThat(endResult.type).isEqualTo(WIN)
+    assertThat(game.winner()).isEqualTo(james)
+    assertThat(game.hasEnded()).isTrue()
   }
 
   @Test
   fun `when all ships are sunk, game winner is the player who sunk all opponents ships (John)`() {
-      playGameUntilEndWithJamesWinning()
+    playGameUntilEndWithJamesWinning()
 
-      assertThat(game.winner()).isEqualTo(james)
+    assertThat(game.winner()).isEqualTo(james)
   }
 
   @Test
   fun `when all ships are sunk, game has ended`() {
-      playGameUntilEndWithJamesWinning()
+    playGameUntilEndWithJamesWinning()
 
-      assertThat(game.hasEnded()).isTrue()
+    assertThat(game.hasEnded()).isTrue()
+  }
+
+  @Test
+  fun `when all ships are sunk and game ended, player cannot fire anymore`() {
+    playGameUntilEndWithJamesWinning()
+
+    val test: () -> Unit = { game.fire(at(J, 1)) }
+
+    assertFailsWith<IllegalStateException>(
+      "Game has ended",
+      test
+    )
   }
 
   private fun shootHit(at: Coordinates) = game.fire(at)
