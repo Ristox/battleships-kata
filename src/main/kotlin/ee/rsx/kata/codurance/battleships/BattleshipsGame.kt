@@ -51,6 +51,8 @@ class BattleshipsGame : Battleships {
   private fun opponent() = players.filterNot { it == currentPlayer }.first()
 
   override fun fire(target: Coordinates): FiringResult {
+    check(!hasEnded()) { "Game has ended" }
+
     val player = currentPlayer
       ?: throw IllegalStateException("cannot fire, game has not been started yet")
 
