@@ -210,71 +210,41 @@ class BattleShipsGameStartedTest {
     john.run {
       assertShotsMissed(at(J, 4), at(J, 6), at(J, 8))
       assertShotsHit(
-          at(E, 5), at(E, 6),
-          at(A, 2), at(A, 3), at(A, 4),
-          at(B, 10), at(C, 10),
-          at(J, 2)
-        )
+        at(E, 5), at(E, 6),
+        at(A, 2), at(A, 3), at(A, 4),
+        at(B, 10), at(C, 10),
+        at(J, 2)
+      )
       assertHasDestroyedOpponentShips(
-          WARSHIP.placed(from(E, 5), to(E, 6)),
-          DESTROYER.placed(from(A, 2), to(A, 4)),
-          WARSHIP.placed(from(B, 10), to(C, 10)),
-          gunship(at(J, 2))
-        )
+        WARSHIP.placed(from(E, 5), to(E, 6)),
+        DESTROYER.placed(from(A, 2), to(A, 4)),
+        WARSHIP.placed(from(B, 10), to(C, 10)),
+        gunship(at(J, 2))
+      )
     }
   }
 
   @Test
   fun `when all ships are sunk, game ends in a win for the current player`() {
-    ensurePlayerIs(john).run {
-      shootMiss(at(G, 1))
-    }
+      val endResult = playGameUntilEndWithJamesWinning()
 
-    ensurePlayerIs(james).run {
-      shootMiss(at(I,10))
-    }
-
-    ensurePlayerIs(john).run {
-      shootMiss(at(F, 9))
-    }
-
-    ensurePlayerIs(james).run {
-      sinkShip(from(E, 2), to(F, 2)) // WARSHIP
-      ensurePlayerIs(james)
-      sinkShip(from(E, 5), to(E, 6)) // WARSHIP
-      ensurePlayerIs(james)
-      shootMiss(at(A, 1))
-    }
-
-    ensurePlayerIs(john).run {
-      shootHit(at(H, 10)) // GUNSHIP
-      ensurePlayerIs(john)
-      sinkShip(from(A, 2), to(A, 4)) // DESTROYER
-      ensurePlayerIs(john)
-      shootMiss(at(B, 9))
-    }
-
-    ensurePlayerIs(james).run {
-      sinkShip(from(B, 10), to(C, 10)) // WARSHIP
-      ensurePlayerIs(james)
-      sinkShip(from(A, 2), to(A, 4)) // DESTROYER
-      ensurePlayerIs(james)
-      sinkShip(from(C, 5), to(C, 7)) // DESTROYER
-      ensurePlayerIs(james)
-      sinkShip(from(D, 8), to (G, 8)) // MOTHERSHIP
-      ensurePlayerIs(james)
-      shootHit(at(J, 2)) // GUNSHIP
-      ensurePlayerIs(james)
-      shootHit(at(H, 10)) // GUNSHIP
-      ensurePlayerIs(james)
-      shootHit(at(A, 6)) // GUNSHIP
-      ensurePlayerIs(james)
-      val result = shootHit(at(F, 4)) // GUNSHIP
-
-      assertThat(result.type).isEqualTo(WIN)
+      assertThat(endResult.type).isEqualTo(WIN)
       assertThat(game.winner()).isEqualTo(james)
       assertThat(game.hasEnded()).isTrue()
-    }
+  }
+
+  @Test
+  fun `when all ships are sunk, game winner is the player who sunk all opponents ships (John)`() {
+      playGameUntilEndWithJamesWinning()
+
+      assertThat(game.winner()).isEqualTo(james)
+  }
+
+  @Test
+  fun `when all ships are sunk, game has ended`() {
+      playGameUntilEndWithJamesWinning()
+
+      assertThat(game.hasEnded()).isTrue()
   }
 
   private fun shootHit(at: Coordinates) = game.fire(at)
@@ -297,5 +267,54 @@ class BattleShipsGameStartedTest {
 
   private fun Player.assertHasDestroyedOpponentShips(vararg ships: Ship) {
     assertThat(destroyedOpponentShips).containsExactlyInAnyOrder(*ships)
+  }
+
+  private fun playGameUntilEndWithJamesWinning(): FiringResult {
+    ensurePlayerIs(john).run {
+      shootMiss(at(G, 1))
+    }
+
+    ensurePlayerIs(james).run {
+      shootMiss(at(I, 10))
+    }
+
+    ensurePlayerIs(john).run {
+      shootMiss(at(F, 9))
+    }
+
+    ensurePlayerIs(james).run {
+      sinkShip(from(E, 2), to(F, 2)) // WARSHIP
+      ensurePlayerIs(james)
+      sinkShip(from(E, 5), to(E, 6)) // WARSHIP
+      ensurePlayerIs(james)
+      shootMiss(at(A, 1))
+    }
+
+    ensurePlayerIs(john).run {
+      shootHit(at(H, 10)) // GUNSHIP
+      ensurePlayerIs(john)
+      sinkShip(from(A, 2), to(A, 4)) // DESTROYER
+      ensurePlayerIs(john)
+      shootMiss(at(B, 9))
+    }
+
+    return ensurePlayerIs(james).run {
+      sinkShip(from(B, 10), to(C, 10)) // WARSHIP
+      ensurePlayerIs(james)
+      sinkShip(from(A, 2), to(A, 4)) // DESTROYER
+      ensurePlayerIs(james)
+      sinkShip(from(C, 5), to(C, 7)) // DESTROYER
+      ensurePlayerIs(james)
+      sinkShip(from(D, 8), to(G, 8)) // MOTHERSHIP
+      ensurePlayerIs(james)
+      shootHit(at(J, 2)) // GUNSHIP
+      ensurePlayerIs(james)
+      shootHit(at(H, 10)) // GUNSHIP
+      ensurePlayerIs(james)
+      shootHit(at(A, 6)) // GUNSHIP
+      ensurePlayerIs(james)
+
+      shootHit(at(F, 4)) // GUNSHIP
+    }
   }
 }
