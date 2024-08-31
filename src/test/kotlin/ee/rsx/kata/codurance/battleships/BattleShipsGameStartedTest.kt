@@ -260,6 +260,18 @@ class BattleShipsGameStartedTest {
     )
   }
 
+  @Test
+  fun `when all ships are sunk and game ended, it cannot be started (again)`() {
+    playGameUntilEndWithJamesWinning()
+
+    val test: () -> Unit = { game.start() }
+
+    assertFailsWith<IllegalStateException>(
+      "Game has ended",
+      test
+    )
+  }
+
   private fun shootHit(at: Coordinates) = game.fire(at)
 
   private fun shootMiss(at: Coordinates) = game.fire(at)
