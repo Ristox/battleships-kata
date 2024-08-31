@@ -5,6 +5,7 @@ import ee.rsx.kata.codurance.battleships.ResultType.MISSED
 import ee.rsx.kata.codurance.battleships.ResultType.SUNK
 import ee.rsx.kata.codurance.battleships.ResultType.WIN
 import ee.rsx.kata.codurance.battleships.player.GamePlayer
+import java.util.Objects.nonNull
 
 class BattleshipsGame : Battleships {
   companion object {
@@ -14,6 +15,8 @@ class BattleshipsGame : Battleships {
 
   private val players = mutableListOf<GamePlayer>()
   private var currentPlayer: Player? = null
+
+  private var winner: Player? = null
 
   override fun addPlayer(name: String): Player {
     check(players.size < PLAYERS_COUNT) { "Maximum of $PLAYERS_COUNT players can be added" }
@@ -59,7 +62,12 @@ class BattleshipsGame : Battleships {
 
       if (shipDestroyed) {
         player.destroyedOpponentShips.add(it)
-        SUNK
+        if (player.hasDestroyedAllOpponentShips()) {
+          winner = player
+          WIN
+        }
+        else
+          SUNK
       }
       else HIT
     }
@@ -70,19 +78,17 @@ class BattleshipsGame : Battleships {
         player.missed(target)
         currentPlayer = opponent()
       }
-      HIT, SUNK -> {
+      HIT, SUNK, WIN -> {
         player.hit(target)
       }
-      WIN -> TODO()
     }
     return FiringResult(target, result, player)
   }
 
-  override fun winner(): Player? {
-    TODO("Not yet implemented")
-  }
+  private fun Player.hasDestroyedAllOpponentShips() =
+    destroyedOpponentShips.size == opponent().board.shipsPlaced().size
 
-  override fun hasEnded(): Boolean {
-    TODO("Not yet implemented")
-  }
+  override fun winner() = winner
+
+  override fun hasEnded() = nonNull(winner)
 }
