@@ -60,33 +60,41 @@ class BattleshipsGame : Battleships {
 
     val shipAtTarget = opponent().board.shipAt(target.row, target.column)
 
-    val result = shipAtTarget?.let {
-      val shipDestroyed =
-        (player.shotsHit + target).containsAll(it.coveredCoordinates())
+    val result = shipAtTarget
+      ?.let {
+        val shipDestroyed =
+          (player.shotsHit + target).containsAll(it.coveredCoordinates())
 
-      if (shipDestroyed) {
-        player.destroyedOpponentShips.add(it)
-        if (player.hasDestroyedAllOpponentShips()) {
-          winner = player
-          WIN
+        if (!shipDestroyed)
+          HIT
+        else {
+          player.destroyedOpponentShips.add(it)
+          if (player.hasDestroyedAllOpponentShips()) {
+            winner = player
+            WIN
+          } else {
+            SUNK
+          }
         }
-        else
-          SUNK
       }
-      else HIT
-    }
+
       ?: MISSED
 
     when (result) {
       MISSED -> {
         player.missed(target)
-        currentPlayer = opponent()
+        switchPlayer()
       }
+
       HIT, SUNK, WIN -> {
         player.hit(target)
       }
     }
     return FiringResult(target, result, player)
+  }
+
+  private fun switchPlayer() {
+    currentPlayer = opponent()
   }
 
   private fun Player.hasDestroyedAllOpponentShips() =

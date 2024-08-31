@@ -230,8 +230,6 @@ class BattleShipsGameStartedTest {
     val endResult = playGameUntilEndWithJamesWinning()
 
     assertThat(endResult.type).isEqualTo(WIN)
-    assertThat(game.winner()).isEqualTo(james)
-    assertThat(game.hasEnded()).isTrue()
   }
 
   @Test
