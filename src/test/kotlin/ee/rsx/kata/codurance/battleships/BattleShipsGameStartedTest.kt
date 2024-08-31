@@ -224,9 +224,68 @@ class BattleShipsGameStartedTest {
     }
   }
 
+  @Test
+  fun `when all ships are sunk, game ends in a win for the current player`() {
+    ensurePlayerIs(john).run {
+      shootMiss(at(G, 1))
+    }
+
+    ensurePlayerIs(james).run {
+      shootMiss(at(I,10))
+    }
+
+    ensurePlayerIs(john).run {
+      shootMiss(at(F, 9))
+    }
+
+    ensurePlayerIs(james).run {
+      sinkShip(from(E, 2), to(F, 2)) // WARSHIP
+      ensurePlayerIs(james)
+      sinkShip(from(E, 5), to(E, 6)) // WARSHIP
+      ensurePlayerIs(james)
+      shootMiss(at(A, 1))
+    }
+
+    ensurePlayerIs(john).run {
+      shootHit(at(H, 10)) // GUNSHIP
+      ensurePlayerIs(john)
+      sinkShip(from(A, 2), to(A, 4)) // DESTROYER
+      ensurePlayerIs(john)
+      shootMiss(at(B, 9))
+    }
+
+    ensurePlayerIs(james).run {
+      sinkShip(from(B, 10), to(C, 10)) // WARSHIP
+      ensurePlayerIs(james)
+      sinkShip(from(A, 2), to(A, 4)) // DESTROYER
+      ensurePlayerIs(james)
+      sinkShip(from(C, 5), to(C, 7)) // DESTROYER
+      ensurePlayerIs(james)
+      sinkShip(from(D, 8), to (G, 8)) // MOTHERSHIP
+      ensurePlayerIs(james)
+      shootHit(at(J, 2)) // GUNSHIP
+      ensurePlayerIs(james)
+      shootHit(at(H, 10)) // GUNSHIP
+      ensurePlayerIs(james)
+      shootHit(at(A, 6)) // GUNSHIP
+      ensurePlayerIs(james)
+      val result = shootHit(at(F, 4)) // GUNSHIP
+
+      assertThat(result.type).isEqualTo(WIN)
+      assertThat(game.winner()).isEqualTo(james)
+      assertThat(game.hasEnded()).isTrue()
+    }
+  }
+
   private fun shootHit(at: Coordinates) = game.fire(at)
 
   private fun shootMiss(at: Coordinates) = game.fire(at)
+
+  private fun ensurePlayerIs(player: Player): Player =
+    with(game.currentPlayer()) {
+      assertThat(this).isEqualTo(player)
+      player
+    }
 
   private fun Player.assertShotsMissed(vararg coordinates: Coordinates) {
     assertThat(shotsMissed).containsExactlyInAnyOrder(*coordinates)

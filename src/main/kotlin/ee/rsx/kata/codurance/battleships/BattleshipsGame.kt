@@ -3,6 +3,7 @@ package ee.rsx.kata.codurance.battleships
 import ee.rsx.kata.codurance.battleships.ResultType.HIT
 import ee.rsx.kata.codurance.battleships.ResultType.MISSED
 import ee.rsx.kata.codurance.battleships.ResultType.SUNK
+import ee.rsx.kata.codurance.battleships.ResultType.WIN
 import ee.rsx.kata.codurance.battleships.player.GamePlayer
 
 class BattleshipsGame : Battleships {
@@ -72,7 +73,16 @@ class BattleshipsGame : Battleships {
       HIT, SUNK -> {
         player.hit(target)
       }
+      WIN -> TODO()
     }
     return FiringResult(target, result, player)
+  }
+
+  override fun winner(): Player? {
+    TODO("Not yet implemented")
+  }
+
+  override fun hasEnded(): Boolean {
+    TODO("Not yet implemented")
   }
 }

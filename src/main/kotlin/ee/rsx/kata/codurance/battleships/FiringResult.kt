@@ -11,5 +11,6 @@ data class FiringResult(
 enum class ResultType {
   MISSED,
   HIT,
-  SUNK
+  SUNK,
+  WIN
 }
