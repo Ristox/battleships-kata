@@ -270,6 +270,28 @@ class BattleShipsGameStartedTest {
     )
   }
 
+  @Test
+  fun `game renders a visual of player's board, showing all ships`() {
+    val render = game.render()
+
+    assertThat(render.board)
+      .isEqualTo(
+        """
+            1 2 3 4 5 6 7 8 9 10 
+          A   D D D   G         
+          B                   W 
+          C         D D D     W 
+          D               M     
+          E   W     W W   M     
+          F   W   G       M     
+          G               M     
+          H                   G 
+          I                     
+          J  G                  
+        """.  trimIndent()
+      )
+  }
+
   private fun shootHit(at: Coordinates) = game.fire(at)
 
   private fun shootMiss(at: Coordinates) = game.fire(at)

@@ -4,7 +4,7 @@ interface Battleships {
 
   fun addPlayer(name: String): Player
   fun start()
-  fun print()
+  fun render(): GameRender
   fun currentPlayer(): Player?
   fun fire(at: Coordinates): FiringResult
   fun hasEnded(): Boolean

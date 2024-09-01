@@ -44,7 +44,7 @@ class BattleshipsGame : Battleships {
     currentPlayer = players.first()
   }
 
-  override fun print() {
+  override fun render(): GameRender {
     TODO("Not yet implemented")
   }
 
