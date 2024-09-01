@@ -44,8 +44,8 @@ class BattleshipsGame : Battleships {
     currentPlayer = players.first()
   }
 
-  override fun render(): GameRender {
-    TODO("Not yet implemented")
+  override fun render(board: Board): BoardRender {
+    return BoardRender(board = "")
   }
 
   override fun currentPlayer() = currentPlayer

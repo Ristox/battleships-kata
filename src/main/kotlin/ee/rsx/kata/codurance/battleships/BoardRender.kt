@@ -1,5 +1,5 @@
 package ee.rsx.kata.codurance.battleships
 
-data class GameRender(
+data class BoardRender(
   val board: String
 )
